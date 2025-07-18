@@ -1,0 +1,42 @@
+# FastAPI和相关依赖
+fastapi==0.104.1
+uvicorn[standard]==0.24.0
+python-multipart==0.0.6
+
+# 数据库相关
+sqlalchemy==2.0.23
+psycopg2-binary==2.9.9
+alembic==1.12.1
+
+# Supabase
+supabase==2.0.2
+
+# 认证和安全
+python-jose[cryptography]==3.3.0
+passlib[bcrypt]==1.7.4
+
+# 配置管理
+pydantic==2.5.0
+pydantic-settings==2.1.0
+
+# HTTP客户端 - 使用兼容版本
+httpx==0.24.1
+requests==2.31.0
+
+# AI服务集成
+replicate==0.22.0
+
+# 异步任务
+celery==5.3.4
+redis==5.0.1
+
+# 图片处理
+Pillow==10.1.0
+
+# 工具库
+python-dotenv==1.0.0
+email-validator==2.1.0
+
+# 开发和测试
+pytest==7.4.3
+pytest-asyncio==0.21.1

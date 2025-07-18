@@ -1,0 +1,193 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 48 46 42;
+    --foreground: 20 14 8;
+    --card: 0 0% 100%;
+    --card-foreground: 20 14 8;
+    --popover: 0 0% 100%;
+    --popover-foreground: 20 14 8;
+    --primary: 142 69 49;
+    --primary-foreground: 355 7% 97%;
+    --secondary: 60 4.8% 95.9%;
+    --secondary-foreground: 24 9.8% 10%;
+    --muted: 60 4.8% 95.9%;
+    --muted-foreground: 25 5.3% 44.7%;
+    --accent: 60 4.8% 95.9%;
+    --accent-foreground: 24 9.8% 10%;
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 60 9.1% 97.8%;
+    --border: 20 5.9% 90%;
+    --input: 20 5.9% 90%;
+    --ring: 142 69 49;
+    --radius: 0.75rem;
+  }
+
+  .dark {
+    --background: 20 14.3% 4.1%;
+    --foreground: 60 9.1% 97.8%;
+    --card: 20 14.3% 4.1%;
+    --card-foreground: 60 9.1% 97.8%;
+    --popover: 20 14.3% 4.1%;
+    --popover-foreground: 60 9.1% 97.8%;
+    --primary: 142 69 49;
+    --primary-foreground: 355 7% 97%;
+    --secondary: 12 6.5% 15.1%;
+    --secondary-foreground: 60 9.1% 97.8%;
+    --muted: 12 6.5% 15.1%;
+    --muted-foreground: 24 5.4% 63.9%;
+    --accent: 12 6.5% 15.1%;
+    --accent-foreground: 60 9.1% 97.8%;
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 60 9.1% 97.8%;
+    --border: 12 6.5% 15.1%;
+    --input: 12 6.5% 15.1%;
+    --ring: 142 69 49;
+  }
+
+  * {
+    @apply border-border;
+  }
+
+  html {
+    scroll-behavior: smooth;
+    font-feature-settings: "rlig" 1, "calt" 1;
+  }
+  
+  body {
+    @apply bg-background text-foreground font-sans antialiased;
+    background: linear-gradient(135deg, hsl(var(--background)) 0%, #f7f3e9 100%);
+    min-height: 100vh;
+  }
+
+  /* 自定义滚动条 */
+  ::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+
+  ::-webkit-scrollbar-track {
+    @apply bg-ghibli-cream-100;
+    border-radius: 4px;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    @apply bg-ghibli-green-400;
+    border-radius: 4px;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    @apply bg-ghibli-green-500;
+  }
+
+  /* 选中文本样式 */
+  ::selection {
+    @apply bg-ghibli-green-200 text-ghibli-green-800;
+  }
+
+  /* 焦点状态 */
+  :focus-visible {
+    @apply outline-none ring-2 ring-ghibli-green-400 ring-offset-2 ring-offset-background;
+  }
+}
+
+@layer components {
+  .btn-primary {
+    @apply bg-ghibli-green-400 hover:bg-ghibli-green-500 text-white font-medium py-2 px-4 rounded-lg transition-all duration-200 shadow-sm hover:shadow-md;
+  }
+  
+  .btn-secondary {
+    @apply bg-white hover:bg-ghibli-cream-50 text-ghibli-green-700 font-medium py-2 px-4 rounded-lg border border-ghibli-green-200 transition-all duration-200 shadow-sm hover:shadow-md;
+  }
+  
+  .card {
+    @apply bg-card text-card-foreground rounded-xl shadow-sm border border-border p-6 backdrop-blur-sm;
+  }
+  
+  .input-field {
+    @apply w-full px-3 py-2 border border-input rounded-lg bg-background focus:outline-none focus:ring-2 focus:ring-ring focus:border-transparent transition-all duration-200;
+  }
+
+  /* 吉卜力风格装饰元素 */
+  .ghibli-gradient {
+    background: linear-gradient(135deg, 
+      #f0f9f0 0%, 
+      #e0f6ff 25%, 
+      #f7f3e9 50%, 
+      #dcf2dc 75%, 
+      #b0e0e6 100%
+    );
+  }
+
+  .ghibli-card {
+    @apply bg-white/80 backdrop-blur-sm rounded-2xl shadow-lg border border-white/20 p-6 transition-all duration-300 hover:shadow-xl hover:scale-[1.02];
+  }
+
+  .ghibli-button {
+    @apply bg-gradient-to-r from-ghibli-green-400 to-ghibli-blue-300 text-white font-medium px-6 py-3 rounded-full shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105 active:scale-95;
+  }
+
+  /* 加载动画 */
+  .loading-dots {
+    @apply inline-flex space-x-1;
+  }
+
+  .loading-dots > div {
+    @apply w-2 h-2 bg-current rounded-full animate-pulse;
+    animation-delay: calc(var(--i) * 0.1s);
+  }
+
+  /* 图片懒加载占位符 */
+  .image-placeholder {
+    @apply bg-gradient-to-br from-ghibli-cream-100 to-ghibli-cream-200 animate-pulse;
+  }
+
+  /* 悬浮效果 */
+  .float-animation {
+    animation: float 3s ease-in-out infinite;
+  }
+
+  /* 页面切换动画 */
+  .page-transition {
+    @apply transition-all duration-300 ease-in-out;
+  }
+
+  .page-enter {
+    @apply opacity-0 translate-y-4;
+  }
+
+  .page-enter-active {
+    @apply opacity-100 translate-y-0;
+  }
+
+  .page-exit {
+    @apply opacity-100 translate-y-0;
+  }
+
+  .page-exit-active {
+    @apply opacity-0 -translate-y-4;
+  }
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+
+  .line-clamp-2 {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  .line-clamp-3 {
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+}
