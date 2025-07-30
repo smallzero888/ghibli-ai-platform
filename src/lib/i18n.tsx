@@ -1,3 +1,4 @@
+// 国际化配置文件
 import React, { createContext, useContext, ReactNode } from 'react';
 
 // 支持的语言列表
