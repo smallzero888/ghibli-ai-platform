@@ -1,0 +1,108 @@
+{
+  "auth": {
+    "login": {
+      "title": "Bentornato",
+      "description": "Accedi al tuo account per continuare a creare bellissime opere d'arte",
+      "email": "Indirizzo Email",
+      "emailPlaceholder": "tu@esempio.com",
+      "password": "Password",
+      "passwordPlaceholder": "Inserisci la tua password",
+      "rememberMe": "Ricordami",
+      "forgotPassword": "Password Dimenticata?",
+      "submit": "Accedi",
+      "submitting": "Accesso in corso...",
+      "noAccount": "Non hai un account?",
+      "register": "Registrati",
+      "error": {
+        "incomplete": "Per favore completa tutte le informazioni di accesso",
+        "failed": "Accesso fallito, per favore riprova"
+      },
+      "success": "Accesso riuscito!"
+    },
+    "register": {
+      "title": "Crea Account",
+      "description": "Unisciti a noi e inizia il tuo viaggio di creazione AI",
+      "submit": "Registrati",
+      "submitting": "Creazione account in corso...",
+      "hasAccount": "Hai già un account?",
+      "login": "Accedi"
+    }
+  },
+  "common": {
+    "loading": "Caricamento...",
+    "error": "Si è verificato un errore",
+    "retry": "Riprova",
+    "cancel": "Annulla",
+    "confirm": "Conferma",
+    "save": "Salva",
+    "delete": "Elimina",
+    "edit": "Modifica",
+    "back": "Indietro",
+    "next": "Avanti",
+    "previous": "Precedente",
+    "close": "Chiudi",
+    "search": "Cerca",
+    "filter": "Filtra",
+    "sort": "Ordina",
+    "more": "Altro",
+    "less": "Meno"
+  },
+  "navigation": {
+    "home": "Home",
+    "generate": "Genera",
+    "gallery": "Galleria",
+    "dashboard": "Dashboard",
+    "profile": "Profilo",
+    "settings": "Impostazioni",
+    "logout": "Esci"
+  },
+  "generate": {
+    "title": "Generazione di Immagini AI",
+    "description": "Genera bellissime immagini in stile Ghibli usando la tecnologia AI",
+    "prompt": "Descrivi l'immagine che desideri",
+    "promptPlaceholder": "es., Un gatto carino che gioca in un giardino...",
+    "negativePrompt": "Contenuto che non vuoi",
+    "negativePromptPlaceholder": "es., sfocato, bassa qualità...",
+    "model": "Modello AI",
+    "width": "Larghezza",
+    "height": "Altezza",
+    "steps": "Passi",
+    "guidanceScale": "Scala di Guida",
+    "generate": "Genera Immagine",
+    "generating": "Generazione in corso...",
+    "download": "Scarica",
+    "share": "Condividi",
+    "regenerate": "Rigenera",
+    "error": {
+      "incomplete": "Per favore completa tutte le informazioni di generazione",
+      "failed": "Generazione fallita, per favore riprova"
+    },
+    "success": "Generazione riuscita!"
+  },
+  "gallery": {
+    "title": "Galleria",
+    "description": "Sfoglia bellissime opere d'arte create dalla community",
+    "filter": {
+      "all": "Tutto",
+      "recent": "Recente",
+      "popular": "Popolare",
+      "following": "Seguiti"
+    },
+    "empty": "Nessuna opera d'arte ancora",
+    "loadMore": "Carica Altro"
+  },
+  "dashboard": {
+    "title": "Dashboard",
+    "description": "Gestisci le tue creazioni e il tuo account",
+    "stats": {
+      "images": "Immagini",
+      "likes": "Mi Piace",
+      "followers": "Seguaci",
+      "following": "Seguiti"
+    },
+    "recent": {
+      "title": "Creazioni Recenti",
+      "empty": "Nessuna creazione ancora"
+    }
+  }
+}

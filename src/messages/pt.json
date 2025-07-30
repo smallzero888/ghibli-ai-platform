@@ -1,0 +1,108 @@
+{
+  "auth": {
+    "login": {
+      "title": "Bem-vindo de Volta",
+      "description": "Faça login na sua conta para continuar criando belas obras de arte",
+      "email": "Endereço de Email",
+      "emailPlaceholder": "voce@exemplo.com",
+      "password": "Senha",
+      "passwordPlaceholder": "Digite sua senha",
+      "rememberMe": "Lembrar-me",
+      "forgotPassword": "Esqueceu a Senha?",
+      "submit": "Entrar",
+      "submitting": "Fazendo login...",
+      "noAccount": "Não tem uma conta?",
+      "register": "Inscrever-se",
+      "error": {
+        "incomplete": "Por favor, complete todas as informações de login",
+        "failed": "Login falhou, por favor tente novamente"
+      },
+      "success": "Login bem-sucedido!"
+    },
+    "register": {
+      "title": "Criar Conta",
+      "description": "Junte-se a nós e comece sua jornada de criação com IA",
+      "submit": "Inscrever-se",
+      "submitting": "Criando conta...",
+      "hasAccount": "Já tem uma conta?",
+      "login": "Entrar"
+    }
+  },
+  "common": {
+    "loading": "Carregando...",
+    "error": "Ocorreu um erro",
+    "retry": "Tentar Novamente",
+    "cancel": "Cancelar",
+    "confirm": "Confirmar",
+    "save": "Salvar",
+    "delete": "Excluir",
+    "edit": "Editar",
+    "back": "Voltar",
+    "next": "Próximo",
+    "previous": "Anterior",
+    "close": "Fechar",
+    "search": "Pesquisar",
+    "filter": "Filtrar",
+    "sort": "Ordenar",
+    "more": "Mais",
+    "less": "Menos"
+  },
+  "navigation": {
+    "home": "Início",
+    "generate": "Gerar",
+    "gallery": "Galeria",
+    "dashboard": "Painel",
+    "profile": "Perfil",
+    "settings": "Configurações",
+    "logout": "Sair"
+  },
+  "generate": {
+    "title": "Geração de Imagens com IA",
+    "description": "Gere belas imagens no estilo Ghibli usando tecnologia de IA",
+    "prompt": "Descreva a imagem que você deseja",
+    "promptPlaceholder": "ex., Um gato fofo brincando em um jardim...",
+    "negativePrompt": "Conteúdo que você não quer",
+    "negativePromptPlaceholder": "ex., borrado, baixa qualidade...",
+    "model": "Modelo de IA",
+    "width": "Largura",
+    "height": "Altura",
+    "steps": "Etapas",
+    "guidanceScale": "Escala de Orientação",
+    "generate": "Gerar Imagem",
+    "generating": "Gerando...",
+    "download": "Baixar",
+    "share": "Compartilhar",
+    "regenerate": "Regenerar",
+    "error": {
+      "incomplete": "Por favor, complete todas as informações de geração",
+      "failed": "Geração falhou, por favor tente novamente"
+    },
+    "success": "Geração bem-sucedida!"
+  },
+  "gallery": {
+    "title": "Galeria",
+    "description": "Navegue por belas obras de arte criadas pela comunidade",
+    "filter": {
+      "all": "Todos",
+      "recent": "Recentes",
+      "popular": "Populares",
+      "following": "Seguindo"
+    },
+    "empty": "Nenhuma obra de arte ainda",
+    "loadMore": "Carregar Mais"
+  },
+  "dashboard": {
+    "title": "Painel",
+    "description": "Gerencie suas criações e sua conta",
+    "stats": {
+      "images": "Imagens",
+      "likes": "Curtidas",
+      "followers": "Seguidores",
+      "following": "Seguindo"
+    },
+    "recent": {
+      "title": "Criações Recentes",
+      "empty": "Nenhuma criação ainda"
+    }
+  }
+}

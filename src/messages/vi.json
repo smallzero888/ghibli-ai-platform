@@ -1,0 +1,108 @@
+{
+  "auth": {
+    "login": {
+      "title": "Chào Mừng Trở Lại",
+      "description": "Đăng nhập vào tài khoản của bạn để tiếp tục tạo những tác phẩm nghệ thuật đẹp",
+      "email": "Địa Chỉ Email",
+      "emailPlaceholder": "ban@vidu.com",
+      "password": "Mật Khẩu",
+      "passwordPlaceholder": "Nhập mật khẩu của bạn",
+      "rememberMe": "Ghi nhớ tôi",
+      "forgotPassword": "Quên Mật Khẩu?",
+      "submit": "Đăng Nhập",
+      "submitting": "Đang đăng nhập...",
+      "noAccount": "Chưa có tài khoản?",
+      "register": "Đăng Ký",
+      "error": {
+        "incomplete": "Vui lòng hoàn thành tất cả thông tin đăng nhập",
+        "failed": "Đăng nhập thất bại, vui lòng thử lại"
+      },
+      "success": "Đăng nhập thành công!"
+    },
+    "register": {
+      "title": "Tạo Tài Khoản",
+      "description": "Tham gia cùng chúng tôi và bắt đầu hành trình sáng tạo AI của bạn",
+      "submit": "Đăng Ký",
+      "submitting": "Đang tạo tài khoản...",
+      "hasAccount": "Đã có tài khoản?",
+      "login": "Đăng Nhập"
+    }
+  },
+  "common": {
+    "loading": "Đang tải...",
+    "error": "Đã xảy ra lỗi",
+    "retry": "Thử Lại",
+    "cancel": "Hủy",
+    "confirm": "Xác Nhận",
+    "save": "Lưu",
+    "delete": "Xóa",
+    "edit": "Chỉnh Sửa",
+    "back": "Quay Lại",
+    "next": "Tiếp Theo",
+    "previous": "Trước Đó",
+    "close": "Đóng",
+    "search": "Tìm Kiếm",
+    "filter": "Lọc",
+    "sort": "Sắp Xếp",
+    "more": "Thêm",
+    "less": "Ít Hơn"
+  },
+  "navigation": {
+    "home": "Trang Chủ",
+    "generate": "Tạo Ảnh",
+    "gallery": "Bộ Sưu Tập",
+    "dashboard": "Bảng Điều Khiển",
+    "profile": "Hồ Sơ",
+    "settings": "Cài Đặt",
+    "logout": "Đăng Xuất"
+  },
+  "generate": {
+    "title": "Tạo Ảnh AI",
+    "description": "Tạo những bức ảnh đẹp phong cách Ghibli bằng công nghệ AI",
+    "prompt": "Mô tả bức ảnh bạn muốn",
+    "promptPlaceholder": "ví dụ: Một chú mèo dễ thương đang chơi trong khu vườn...",
+    "negativePrompt": "Nội dung bạn không muốn",
+    "negativePromptPlaceholder": "ví dụ: mờ, chất lượng thấp...",
+    "model": "Mô Hình AI",
+    "width": "Chiều Rộng",
+    "height": "Chiều Cao",
+    "steps": "Bước",
+    "guidanceScale": "Tỷ Lệ Hướng Dẫn",
+    "generate": "Tạo Ảnh",
+    "generating": "Đang tạo...",
+    "download": "Tải Xuống",
+    "share": "Chia Sẻ",
+    "regenerate": "Tạo Lại",
+    "error": {
+      "incomplete": "Vui lòng hoàn thành tất cả thông tin tạo ảnh",
+      "failed": "Tạo ảnh thất bại, vui lòng thử lại"
+    },
+    "success": "Tạo ảnh thành công!"
+  },
+  "gallery": {
+    "title": "Bộ Sưu Tập",
+    "description": "Duyệt qua những tác phẩm nghệ thuật đẹp được tạo bởi cộng đồng",
+    "filter": {
+      "all": "Tất Cả",
+      "recent": "Gần Đây",
+      "popular": "Phổ Biến",
+      "following": "Đang Theo Dõi"
+    },
+    "empty": "Chưa có tác phẩm nghệ thuật nào",
+    "loadMore": "Tải Thêm"
+  },
+  "dashboard": {
+    "title": "Bảng Điều Khiển",
+    "description": "Quản lý các tác phẩm và tài khoản của bạn",
+    "stats": {
+      "images": "Hình Ảnh",
+      "likes": "Lượt Thích",
+      "followers": "Người Theo Dõi",
+      "following": "Đang Theo Dõi"
+    },
+    "recent": {
+      "title": "Tác Phẩm Gần Đây",
+      "empty": "Chưa có tác phẩm nào"
+    }
+  }
+}
