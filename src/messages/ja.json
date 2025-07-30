@@ -1,0 +1,108 @@
+{
+  "auth": {
+    "login": {
+      "title": "お帰りなさい",
+      "description": "アカウントにサインインして、美しいアートワークの作成を続けてください",
+      "email": "メールアドレス",
+      "emailPlaceholder": "you@example.com",
+      "password": "パスワード",
+      "passwordPlaceholder": "パスワードを入力してください",
+      "rememberMe": "ログイン状態を保持する",
+      "forgotPassword": "パスワードをお忘れですか？",
+      "submit": "サインイン",
+      "submitting": "サインイン中...",
+      "noAccount": "アカウントをお持ちでないですか？",
+      "register": "サインアップ",
+      "error": {
+        "incomplete": "すべてのログイン情報を完了してください",
+        "failed": "ログインに失敗しました。再試行してください"
+      },
+      "success": "ログイン成功！"
+    },
+    "register": {
+      "title": "アカウント作成",
+      "description": "私たちに参加して、AI創作の旅を始めましょう",
+      "submit": "サインアップ",
+      "submitting": "アカウント作成中...",
+      "hasAccount": "すでにアカウントをお持ちですか？",
+      "login": "サインイン"
+    }
+  },
+  "common": {
+    "loading": "読み込み中...",
+    "error": "エラーが発生しました",
+    "retry": "再試行",
+    "cancel": "キャンセル",
+    "confirm": "確認",
+    "save": "保存",
+    "delete": "削除",
+    "edit": "編集",
+    "back": "戻る",
+    "next": "次へ",
+    "previous": "前へ",
+    "close": "閉じる",
+    "search": "検索",
+    "filter": "フィルター",
+    "sort": "ソート",
+    "more": "もっと見る",
+    "less": "少なく表示"
+  },
+  "navigation": {
+    "home": "ホーム",
+    "generate": "生成",
+    "gallery": "ギャラリー",
+    "dashboard": "ダッシュボード",
+    "profile": "プロフィール",
+    "settings": "設定",
+    "logout": "ログアウト"
+  },
+  "generate": {
+    "title": "AI画像生成",
+    "description": "AI技術を使用して美しいジブリスタイルの画像を生成",
+    "prompt": "望む画像を説明してください",
+    "promptPlaceholder": "例：庭で遊ぶかわいい猫...",
+    "negativePrompt": "含めたくないコンテンツ",
+    "negativePromptPlaceholder": "例：ぼやけている、低品質...",
+    "model": "AIモデル",
+    "width": "幅",
+    "height": "高さ",
+    "steps": "ステップ",
+    "guidanceScale": "ガイダンススケール",
+    "generate": "画像を生成",
+    "generating": "生成中...",
+    "download": "ダウンロード",
+    "share": "共有",
+    "regenerate": "再生成",
+    "error": {
+      "incomplete": "すべての生成情報を完了してください",
+      "failed": "生成に失敗しました。再試行してください"
+    },
+    "success": "生成成功！"
+  },
+  "gallery": {
+    "title": "ギャラリー",
+    "description": "コミュニティが作成した美しいアートワークを閲覧",
+    "filter": {
+      "all": "すべて",
+      "recent": "最近",
+      "popular": "人気",
+      "following": "フォロー中"
+    },
+    "empty": "アートワークはまだありません",
+    "loadMore": "もっと読み込む"
+  },
+  "dashboard": {
+    "title": "ダッシュボード",
+    "description": "作成物とアカウントを管理",
+    "stats": {
+      "images": "画像",
+      "likes": "いいね",
+      "followers": "フォロワー",
+      "following": "フォロー中"
+    },
+    "recent": {
+      "title": "最近の作成",
+      "empty": "作成物はまだありません"
+    }
+  }
+}

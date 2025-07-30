@@ -1,0 +1,108 @@
+{
+  "auth": {
+    "login": {
+      "title": "환영합니다",
+      "description": "계정에 로그인하여 아름다운 작품을 계속 만드세요",
+      "email": "이메일 주소",
+      "emailPlaceholder": "you@example.com",
+      "password": "비밀번호",
+      "passwordPlaceholder": "비밀번호를 입력하세요",
+      "rememberMe": "로그인 상태 유지",
+      "forgotPassword": "비밀번호를 잊으셨나요?",
+      "submit": "로그인",
+      "submitting": "로그인 중...",
+      "noAccount": "계정이 없으신가요?",
+      "register": "가입하기",
+      "error": {
+        "incomplete": "모든 로그인 정보를 완성해주세요",
+        "failed": "로그인에 실패했습니다. 다시 시도해주세요"
+      },
+      "success": "로그인 성공!"
+    },
+    "register": {
+      "title": "계정 생성",
+      "description": "저희와 함께 AI 창작 여정을 시작하세요",
+      "submit": "가입하기",
+      "submitting": "계정 생성 중...",
+      "hasAccount": "이미 계정이 있으신가요?",
+      "login": "로그인"
+    }
+  },
+  "common": {
+    "loading": "로딩 중...",
+    "error": "오류가 발생했습니다",
+    "retry": "재시도",
+    "cancel": "취소",
+    "confirm": "확인",
+    "save": "저장",
+    "delete": "삭제",
+    "edit": "편집",
+    "back": "뒤로",
+    "next": "다음",
+    "previous": "이전",
+    "close": "닫기",
+    "search": "검색",
+    "filter": "필터",
+    "sort": "정렬",
+    "more": "더보기",
+    "less": "간단히"
+  },
+  "navigation": {
+    "home": "홈",
+    "generate": "생성",
+    "gallery": "갤러리",
+    "dashboard": "대시보드",
+    "profile": "프로필",
+    "settings": "설정",
+    "logout": "로그아웃"
+  },
+  "generate": {
+    "title": "AI 이미지 생성",
+    "description": "AI 기술을 사용하여 아름다운 지브리 스타일 이미지를 생성하세요",
+    "prompt": "원하는 이미지를 설명하세요",
+    "promptPlaceholder": "예: 정원에서 노는 귀여운 고양이...",
+    "negativePrompt": "원하지 않는 내용",
+    "negativePromptPlaceholder": "예: 흐림, 저품질...",
+    "model": "AI 모델",
+    "width": "너비",
+    "height": "높이",
+    "steps": "단계",
+    "guidanceScale": "안내 강도",
+    "generate": "이미지 생성",
+    "generating": "생성 중...",
+    "download": "다운로드",
+    "share": "공유",
+    "regenerate": "재생성",
+    "error": {
+      "incomplete": "모든 생성 정보를 완성해주세요",
+      "failed": "생성에 실패했습니다. 다시 시도해주세요"
+    },
+    "success": "생성 성공!"
+  },
+  "gallery": {
+    "title": "갤러리",
+    "description": "커뮤니티가 만든 아름다운 작품을 둘러보세요",
+    "filter": {
+      "all": "전체",
+      "recent": "최근",
+      "popular": "인기",
+      "following": "팔로잉"
+    },
+    "empty": "아직 작품이 없습니다",
+    "loadMore": "더보기"
+  },
+  "dashboard": {
+    "title": "대시보드",
+    "description": "창작물과 계정을 관리하세요",
+    "stats": {
+      "images": "이미지",
+      "likes": "좋아요",
+      "followers": "팔로워",
+      "following": "팔로잉"
+    },
+    "recent": {
+      "title": "최근 창작물",
+      "empty": "아직 창작물이 없습니다"
+    }
+  }
+}

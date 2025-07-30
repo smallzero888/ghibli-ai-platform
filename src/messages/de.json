@@ -1,0 +1,108 @@
+{
+  "auth": {
+    "login": {
+      "title": "Willkommen zurück",
+      "description": "Melden Sie sich bei Ihrem Konto an, um weiter schöne Kunstwerke zu erstellen",
+      "email": "E-Mail-Adresse",
+      "emailPlaceholder": "sie@beispiel.de",
+      "password": "Passwort",
+      "passwordPlaceholder": "Geben Sie Ihr Passwort ein",
+      "rememberMe": "Angemeldet bleiben",
+      "forgotPassword": "Passwort vergessen?",
+      "submit": "Anmelden",
+      "submitting": "Anmeldung...",
+      "noAccount": "Haben Sie kein Konto?",
+      "register": "Registrieren",
+      "error": {
+        "incomplete": "Bitte füllen Sie alle Anmeldeinformationen aus",
+        "failed": "Anmeldung fehlgeschlagen, bitte versuchen Sie es erneut"
+      },
+      "success": "Anmeldung erfolgreich!"
+    },
+    "register": {
+      "title": "Konto erstellen",
+      "description": "Treten Sie bei uns an und beginnen Sie Ihre KI-Erstellungsreise",
+      "submit": "Registrieren",
+      "submitting": "Konto wird erstellt...",
+      "hasAccount": "Haben Sie bereits ein Konto?",
+      "login": "Anmelden"
+    }
+  },
+  "common": {
+    "loading": "Laden...",
+    "error": "Ein Fehler ist aufgetreten",
+    "retry": "Wiederholen",
+    "cancel": "Abbrechen",
+    "confirm": "Bestätigen",
+    "save": "Speichern",
+    "delete": "Löschen",
+    "edit": "Bearbeiten",
+    "back": "Zurück",
+    "next": "Weiter",
+    "previous": "Vorherige",
+    "close": "Schließen",
+    "search": "Suchen",
+    "filter": "Filter",
+    "sort": "Sortieren",
+    "more": "Mehr",
+    "less": "Weniger"
+  },
+  "navigation": {
+    "home": "Startseite",
+    "generate": "Erstellen",
+    "gallery": "Galerie",
+    "dashboard": "Dashboard",
+    "profile": "Profil",
+    "settings": "Einstellungen",
+    "logout": "Abmelden"
+  },
+  "generate": {
+    "title": "KI-Bilderstellung",
+    "description": "Erstellen Sie schöne Ghibli-Stil-Bilder mit KI-Technologie",
+    "prompt": "Beschreiben Sie das Bild, das Sie möchten",
+    "promptPlaceholder": "z.B., Eine niedliche Katze, die in einem Garten spielt...",
+    "negativePrompt": "Inhalte, die Sie nicht möchten",
+    "negativePromptPlaceholder": "z.B., verschwommen, geringe Qualität...",
+    "model": "KI-Modell",
+    "width": "Breite",
+    "height": "Höhe",
+    "steps": "Schritte",
+    "guidanceScale": "Führungsmaßstab",
+    "generate": "Bild erstellen",
+    "generating": "Erstellung...",
+    "download": "Herunterladen",
+    "share": "Teilen",
+    "regenerate": "Neu erstellen",
+    "error": {
+      "incomplete": "Bitte füllen Sie alle Erstellungsinformationen aus",
+      "failed": "Erstellung fehlgeschlagen, bitte versuchen Sie es erneut"
+    },
+    "success": "Erstellung erfolgreich!"
+  },
+  "gallery": {
+    "title": "Galerie",
+    "description": "Durchsuchen Sie schöne Kunstwerke, die von der Gemeinschaft erstellt wurden",
+    "filter": {
+      "all": "Alle",
+      "recent": "Kürzlich",
+      "popular": "Beliebt",
+      "following": "Folgend"
+    },
+    "empty": "Noch keine Kunstwerke",
+    "loadMore": "Mehr laden"
+  },
+  "dashboard": {
+    "title": "Dashboard",
+    "description": "Verwalten Sie Ihre Kreationen und Ihr Konto",
+    "stats": {
+      "images": "Bilder",
+      "likes": "Likes",
+      "followers": "Follower",
+      "following": "Folgend"
+    },
+    "recent": {
+      "title": "Kürzliche Kreationen",
+      "empty": "Noch keine Kreationen"
+    }
+  }
+}

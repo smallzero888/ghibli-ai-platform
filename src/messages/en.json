@@ -1,0 +1,108 @@
+{
+  "auth": {
+    "login": {
+      "title": "Welcome Back",
+      "description": "Sign in to your account to continue creating beautiful artwork",
+      "email": "Email Address",
+      "emailPlaceholder": "you@example.com",
+      "password": "Password",
+      "passwordPlaceholder": "Enter your password",
+      "rememberMe": "Remember me",
+      "forgotPassword": "Forgot Password?",
+      "submit": "Sign In",
+      "submitting": "Signing in...",
+      "noAccount": "Don't have an account?",
+      "register": "Sign Up",
+      "error": {
+        "incomplete": "Please complete all login information",
+        "failed": "Login failed, please try again"
+      },
+      "success": "Login successful!"
+    },
+    "register": {
+      "title": "Create Account",
+      "description": "Join us and start your AI creation journey",
+      "submit": "Sign Up",
+      "submitting": "Creating account...",
+      "hasAccount": "Already have an account?",
+      "login": "Sign In"
+    }
+  },
+  "common": {
+    "loading": "Loading...",
+    "error": "An error occurred",
+    "retry": "Retry",
+    "cancel": "Cancel",
+    "confirm": "Confirm",
+    "save": "Save",
+    "delete": "Delete",
+    "edit": "Edit",
+    "back": "Back",
+    "next": "Next",
+    "previous": "Previous",
+    "close": "Close",
+    "search": "Search",
+    "filter": "Filter",
+    "sort": "Sort",
+    "more": "More",
+    "less": "Less"
+  },
+  "navigation": {
+    "home": "Home",
+    "generate": "Generate",
+    "gallery": "Gallery",
+    "dashboard": "Dashboard",
+    "profile": "Profile",
+    "settings": "Settings",
+    "logout": "Logout"
+  },
+  "generate": {
+    "title": "AI Image Generation",
+    "description": "Generate beautiful Ghibli-style images using AI technology",
+    "prompt": "Describe the image you want",
+    "promptPlaceholder": "e.g., A cute cat playing in a garden...",
+    "negativePrompt": "Content you don't want",
+    "negativePromptPlaceholder": "e.g., blurry, low quality...",
+    "model": "AI Model",
+    "width": "Width",
+    "height": "Height",
+    "steps": "Steps",
+    "guidanceScale": "Guidance Scale",
+    "generate": "Generate Image",
+    "generating": "Generating...",
+    "download": "Download",
+    "share": "Share",
+    "regenerate": "Regenerate",
+    "error": {
+      "incomplete": "Please complete all generation information",
+      "failed": "Generation failed, please try again"
+    },
+    "success": "Generation successful!"
+  },
+  "gallery": {
+    "title": "Gallery",
+    "description": "Browse beautiful artworks created by the community",
+    "filter": {
+      "all": "All",
+      "recent": "Recent",
+      "popular": "Popular",
+      "following": "Following"
+    },
+    "empty": "No artworks yet",
+    "loadMore": "Load More"
+  },
+  "dashboard": {
+    "title": "Dashboard",
+    "description": "Manage your creations and account",
+    "stats": {
+      "images": "Images",
+      "likes": "Likes",
+      "followers": "Followers",
+      "following": "Following"
+    },
+    "recent": {
+      "title": "Recent Creations",
+      "empty": "No creations yet"
+    }
+  }
+}

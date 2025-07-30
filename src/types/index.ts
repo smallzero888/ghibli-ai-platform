@@ -41,11 +41,15 @@ export interface GenerationTask {
 export interface GenerationRequest {
   prompt: string
   negative_prompt?: string
-  ai_model: 'siliconflow' | 'replicate'
+  ai_model: 'siliconflow' | 'replicate' | 'stability' | 'midjourney'
+  model?: string
+  style?: string
   width?: number
   height?: number
   steps?: number
   guidance_scale?: number
+  seed?: number
+  batch_size?: number
 }
 
 export interface ApiResponse<T> {

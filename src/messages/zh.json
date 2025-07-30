@@ -1,0 +1,108 @@
+{
+  "auth": {
+    "login": {
+      "title": "欢迎回来",
+      "description": "登录您的账户继续创作精美作品",
+      "email": "邮箱地址",
+      "emailPlaceholder": "you@example.com",
+      "password": "密码",
+      "passwordPlaceholder": "请输入密码",
+      "rememberMe": "记住我",
+      "forgotPassword": "忘记密码？",
+      "submit": "登录",
+      "submitting": "登录中...",
+      "noAccount": "还没有账户？",
+      "register": "立即注册",
+      "error": {
+        "incomplete": "请填写完整的登录信息",
+        "failed": "登录失败，请重试"
+      },
+      "success": "登录成功！"
+    },
+    "register": {
+      "title": "创建账户",
+      "description": "加入我们，开始您的AI创作之旅",
+      "submit": "注册",
+      "submitting": "注册中...",
+      "hasAccount": "已有账户？",
+      "login": "立即登录"
+    }
+  },
+  "common": {
+    "loading": "加载中...",
+    "error": "出错了",
+    "retry": "重试",
+    "cancel": "取消",
+    "confirm": "确认",
+    "save": "保存",
+    "delete": "删除",
+    "edit": "编辑",
+    "back": "返回",
+    "next": "下一步",
+    "previous": "上一步",
+    "close": "关闭",
+    "search": "搜索",
+    "filter": "筛选",
+    "sort": "排序",
+    "more": "更多",
+    "less": "收起"
+  },
+  "navigation": {
+    "home": "首页",
+    "generate": "生成图片",
+    "gallery": "作品展示",
+    "dashboard": "仪表板",
+    "profile": "个人资料",
+    "settings": "设置",
+    "logout": "退出登录"
+  },
+  "generate": {
+    "title": "AI图片生成",
+    "description": "使用AI技术生成精美的吉卜力风格图片",
+    "prompt": "描述您想要的图片",
+    "promptPlaceholder": "例如：一只可爱的小猫在花园里玩耍...",
+    "negativePrompt": "不希望出现的内容",
+    "negativePromptPlaceholder": "例如：模糊，低质量...",
+    "model": "AI模型",
+    "width": "宽度",
+    "height": "高度",
+    "steps": "步数",
+    "guidanceScale": "引导强度",
+    "generate": "生成图片",
+    "generating": "生成中...",
+    "download": "下载",
+    "share": "分享",
+    "regenerate": "重新生成",
+    "error": {
+      "incomplete": "请填写完整的生成信息",
+      "failed": "生成失败，请重试"
+    },
+    "success": "生成成功！"
+  },
+  "gallery": {
+    "title": "作品展示",
+    "description": "浏览社区创作的精美作品",
+    "filter": {
+      "all": "全部",
+      "recent": "最新",
+      "popular": "热门",
+      "following": "关注"
+    },
+    "empty": "暂无作品",
+    "loadMore": "加载更多"
+  },
+  "dashboard": {
+    "title": "仪表板",
+    "description": "管理您的创作和账户",
+    "stats": {
+      "images": "图片数量",
+      "likes": "获赞数量",
+      "followers": "粉丝数量",
+      "following": "关注数量"
+    },
+    "recent": {
+      "title": "最近创作",
+      "empty": "暂无创作"
+    }
+  }
+}
