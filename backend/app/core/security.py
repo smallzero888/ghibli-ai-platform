@@ -1,13 +1,15 @@
 """
-安全相关工具函数
-包含JWT令牌处理、密码加密、权限验证等功能
+安全相关的核心功能
 """
 
-import jwt
-from datetime import datetime, timedelta
-from typing import Optional, Dict, Any
+import re
+import hashlib
 from passlib.context import CryptContext
-from fastapi import HTTPException, status
+from typing import Tuple
+from datetime import datetime, timedelta
+import secrets
+import jwt
+
 from .config import settings
 
 # 密码加密上下文
@@ -18,13 +20,34 @@ def verify_password(plain_password: str, hashed_password: str) -> bool:
     return pwd_context.verify(plain_password, hashed_password)
 
 def get_password_hash(password: str) -> str:
-    """生成密码哈希"""
+    """获取密码哈希"""
     return pwd_context.hash(password)
 
-def create_access_token(data: Dict[str, Any], expires_delta: Optional[timedelta] = None) -> str:
+def validate_email(email: str) -> bool:
+    """验证邮箱格式"""
+    pattern = r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$'
+    return re.match(pattern, email) is not None
+
+def validate_password_strength(password: str) -> Tuple[bool, str]:
+    """验证密码强度"""
+    if len(password) < 6:
+        return False, "密码长度至少6位"
+    
+    if len(password) > 128:
+        return False, "密码长度不能超过128位"
+    
+    # 检查是否包含至少一个字母和一个数字
+    has_letter = re.search(r'[a-zA-Z]', password)
+    has_number = re.search(r'\d', password)
+    
+    if not (has_letter and has_number):
+        return False, "密码必须包含至少一个字母和一个数字"
+    
+    return True, "密码强度合格"
+
+def create_access_token(data: dict, expires_delta: timedelta = None) -> str:
     """创建访问令牌"""
     to_encode = data.copy()
-    
     if expires_delta:
         expire = datetime.utcnow() + expires_delta
     else:
@@ -34,83 +57,18 @@ def create_access_token(data: Dict[str, Any], expires_delta: Optional[timedelta]
     encoded_jwt = jwt.encode(to_encode, settings.SECRET_KEY, algorithm=settings.ALGORITHM)
     return encoded_jwt
 
-def verify_token(token: str) -> Dict[str, Any]:
-    """验证JWT令牌"""
-    try:
-        payload = jwt.decode(token, settings.SECRET_KEY, algorithms=[settings.ALGORITHM])
-        return payload
-    except jwt.ExpiredSignatureError:
-        raise HTTPException(
-            status_code=status.HTTP_401_UNAUTHORIZED,
-            detail="Token has expired",
-            headers={"WWW-Authenticate": "Bearer"},
-        )
-    except jwt.JWTError:
-        raise HTTPException(
-            status_code=status.HTTP_401_UNAUTHORIZED,
-            detail="Could not validate credentials",
-            headers={"WWW-Authenticate": "Bearer"},
-        )
+def generate_reset_token() -> str:
+    """生成密码重置令牌"""
+    return secrets.token_urlsafe(32)
 
-def verify_supabase_jwt(token: str) -> Dict[str, Any]:
-    """验证Supabase JWT令牌"""
-    try:
-        # 使用Supabase的JWT密钥验证令牌
-        payload = jwt.decode(
-            token, 
-            settings.SUPABASE_JWT_SECRET, 
-            algorithms=["HS256"],
-            audience="authenticated"
-        )
-        return payload
-    except jwt.ExpiredSignatureError:
-        raise HTTPException(
-            status_code=status.HTTP_401_UNAUTHORIZED,
-            detail="Token has expired",
-            headers={"WWW-Authenticate": "Bearer"},
-        )
-    except jwt.JWTError as e:
-        raise HTTPException(
-            status_code=status.HTTP_401_UNAUTHORIZED,
-            detail=f"Could not validate credentials: {str(e)}",
-            headers={"WWW-Authenticate": "Bearer"},
-        )
+def hash_string(text: str) -> str:
+    """字符串哈希"""
+    return hashlib.sha256(text.encode()).hexdigest()
 
-def extract_user_id_from_token(token: str) -> str:
-    """从令牌中提取用户ID"""
-    payload = verify_supabase_jwt(token)
-    user_id = payload.get("sub")
-    
-    if not user_id:
-        raise HTTPException(
-            status_code=status.HTTP_401_UNAUTHORIZED,
-            detail="Invalid token: no user ID found"
-        )
-    
-    return user_id
+def generate_api_key() -> str:
+    """生成API密钥"""
+    return f"ghibli_{secrets.token_urlsafe(32)}"
 
-def check_admin_permission(user_data: Dict[str, Any]) -> bool:
-    """检查管理员权限"""
-    return user_data.get("is_admin", False)
-
-def validate_email(email: str) -> bool:
-    """验证邮箱格式"""
-    import re
-    pattern = r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$'
-    return re.match(pattern, email) is not None
-
-def validate_password_strength(password: str) -> tuple[bool, str]:
-    """验证密码强度"""
-    if len(password) < 8:
-        return False, "密码长度至少8位"
-    
-    if not re.search(r'[A-Z]', password):
-        return False, "密码必须包含至少一个大写字母"
-    
-    if not re.search(r'[a-z]', password):
-        return False, "密码必须包含至少一个小写字母"
-    
-    if not re.search(r'\d', password):
-        return False, "密码必须包含至少一个数字"
-    
-    return True, "密码强度符合要求"
+def validate_api_key(api_key: str) -> bool:
+    """验证API密钥格式"""
+    return api_key.startswith("ghibli_") and len(api_key) > 10

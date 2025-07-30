@@ -1,107 +1,94 @@
 """
-用户相关的Pydantic模式
-用于API请求和响应的数据验证和序列化
+用户相关的数据模式定义
 """
 
-from pydantic import BaseModel, EmailStr, Field, validator
-from typing import Optional, List
+from pydantic import BaseModel, Field, EmailStr, validator
+from typing import Optional
 from datetime import datetime
-from uuid import UUID
 
-class UserBase(BaseModel):
-    """用户基础模式"""
-    email: EmailStr
-    username: Optional[str] = Field(None, min_length=3, max_length=50)
-    full_name: Optional[str] = Field(None, max_length=255)
-    avatar_url: Optional[str] = None
+class UserLogin(BaseModel):
+    """用户登录请求"""
+    email: EmailStr = Field(..., description="邮箱地址")
+    password: str = Field(..., min_length=6, description="密码")
 
-class UserCreate(UserBase):
-    """创建用户模式"""
-    password: str = Field(..., min_length=8, max_length=100)
-    
+class UserRegister(BaseModel):
+    """用户注册请求"""
+    email: EmailStr = Field(..., description="邮箱地址")
+    password: str = Field(..., min_length=6, description="密码")
+    username: Optional[str] = Field(None, min_length=2, max_length=50, description="用户名")
+    full_name: Optional[str] = Field(None, max_length=100, description="全名")
+
     @validator('password')
     def validate_password(cls, v):
-        """验证密码强度"""
-        if len(v) < 8:
-            raise ValueError('密码长度至少8位')
-        if not any(c.isupper() for c in v):
-            raise ValueError('密码必须包含至少一个大写字母')
-        if not any(c.islower() for c in v):
-            raise ValueError('密码必须包含至少一个小写字母')
-        if not any(c.isdigit() for c in v):
-            raise ValueError('密码必须包含至少一个数字')
+        if len(v) < 6:
+            raise ValueError('密码长度至少6位')
         return v
 
 class UserUpdate(BaseModel):
-    """更新用户模式"""
-    username: Optional[str] = Field(None, min_length=3, max_length=50)
-    full_name: Optional[str] = Field(None, max_length=255)
-    avatar_url: Optional[str] = None
+    """用户更新请求"""
+    username: Optional[str] = Field(None, min_length=2, max_length=50, description="用户名")
+    full_name: Optional[str] = Field(None, max_length=100, description="全名")
+    avatar_url: Optional[str] = Field(None, description="头像URL")
 
-class UserResponse(UserBase):
-    """用户响应模式"""
-    id: UUID
+class UserResponse(BaseModel):
+    """用户信息响应"""
+    id: str
+    email: str
+    username: Optional[str] = None
+    full_name: Optional[str] = None
+    avatar_url: Optional[str] = None
     is_admin: bool = False
     subscription_type: str = "free"
     generation_count: int = 0
-    last_generation_at: Optional[datetime] = None
     created_at: datetime
     updated_at: datetime
-    
+
     class Config:
         from_attributes = True
 
-class UserProfile(UserResponse):
-    """用户详细资料模式"""
-    total_images: Optional[int] = 0
-    total_favorites: Optional[int] = 0
-    recent_activity: Optional[List[dict]] = []
+class UserProfile(BaseModel):
+    """用户个人资料"""
+    id: str
+    email: str
+    username: Optional[str] = None
+    full_name: Optional[str] = None
+    avatar_url: Optional[str] = None
+    is_admin: bool = False
+    subscription_type: str = "free"
+    generation_count: int = 0
+    created_at: datetime
+    updated_at: datetime
 
-class UserLogin(BaseModel):
-    """用户登录模式"""
-    email: EmailStr
-    password: str
+    class Config:
+        from_attributes = True
 
-class UserRegister(UserCreate):
-    """用户注册模式"""
-    confirm_password: str
-    
-    @validator('confirm_password')
-    def passwords_match(cls, v, values):
-        """验证密码确认"""
-        if 'password' in values and v != values['password']:
-            raise ValueError('密码确认不匹配')
-        return v
-
-class PasswordReset(BaseModel):
-    """密码重置模式"""
-    email: EmailStr
-
-class PasswordResetConfirm(BaseModel):
-    """密码重置确认模式"""
-    token: str
-    new_password: str = Field(..., min_length=8, max_length=100)
-    confirm_password: str
-    
-    @validator('confirm_password')
-    def passwords_match(cls, v, values):
-        """验证密码确认"""
-        if 'new_password' in values and v != values['new_password']:
-            raise ValueError('密码确认不匹配')
-        return v
+class UserStats(BaseModel):
+    """用户统计信息"""
+    total_generations: int
+    successful_generations: int
+    failed_generations: int
+    public_images: int
+    total_likes: int
+    total_views: int
 
 class TokenResponse(BaseModel):
-    """令牌响应模式"""
+    """令牌响应"""
     access_token: str
     token_type: str = "bearer"
     expires_in: int
     user: UserResponse
 
-class UserStats(BaseModel):
-    """用户统计模式"""
-    total_generations: int
-    total_images: int
-    total_favorites: int
-    subscription_type: str
-    generation_limit: int
-    remaining_generations: int
+class PasswordReset(BaseModel):
+    """密码重置请求"""
+    email: EmailStr = Field(..., description="邮箱地址")
+
+class PasswordResetConfirm(BaseModel):
+    """密码重置确认"""
+    token: str = Field(..., description="重置令牌")
+    new_password: str = Field(..., min_length=6, description="新密码")
+
+    @validator('new_password')
+    def validate_password(cls, v):
+        if len(v) < 6:
+            raise ValueError('密码长度至少6位')
+        return v

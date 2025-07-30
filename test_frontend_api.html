@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>API连接测试</title>
+</head>
+<body>
+    <h1>测试前端API连接</h1>
+    <button onclick="testAPI()">测试API连接</button>
+    <div id="result"></div>
+
+    <script>
+        async function testAPI() {
+            const resultDiv = document.getElementById('result');
+            resultDiv.innerHTML = '测试中...';
+            
+            try {
+                const response = await fetch('http://localhost:8000/api/generate/simple', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        prompt: 'test cat',
+                        model: 'stabilityai/stable-diffusion-xl-base-1.0',
+                        width: 512,
+                        height: 512
+                    })
+                });
+                
+                const data = await response.json();
+                resultDiv.innerHTML = `
+                    <h3>测试结果:</h3>
+                    <p>状态码: ${response.status}</p>
+                    <p>成功: ${data.success}</p>
+                    <p>图片URL: ${data.result?.images?.[0] || '无'}</p>
+                `;
+            } catch (error) {
+                resultDiv.innerHTML = `<p style="color: red;">错误: ${error.message}</p>`;
+            }
+        }
+    </script>
+</body>
+</html>

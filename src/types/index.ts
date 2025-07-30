@@ -22,7 +22,10 @@ export interface Image {
   generation_params?: Record<string, any>
   status: 'completed' | 'failed' | 'processing'
   is_public: boolean
+  likes_count?: number
+  views_count?: number
   created_at: string
+  updated_at?: string
 }
 
 export interface GenerationTask {

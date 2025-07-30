@@ -1,25 +1,35 @@
-import { type ClassValue, clsx } from 'clsx'
-import { twMerge } from 'tailwind-merge'
+import { type ClassValue, clsx } from "clsx"
+import { twMerge } from "tailwind-merge"
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs))
 }
 
-export function formatDate(date: string | Date) {
-  return new Intl.DateTimeFormat('zh-CN', {
-    year: 'numeric',
-    month: 'long',
-    day: 'numeric',
-    hour: '2-digit',
-    minute: '2-digit',
-  }).format(new Date(date))
+export async function downloadImage(url: string, filename: string = 'image.png') {
+  try {
+    const response = await fetch(url)
+    const blob = await response.blob()
+    const downloadUrl = window.URL.createObjectURL(blob)
+    
+    const link = document.createElement('a')
+    link.href = downloadUrl
+    link.download = filename
+    document.body.appendChild(link)
+    link.click()
+    document.body.removeChild(link)
+    
+    window.URL.revokeObjectURL(downloadUrl)
+  } catch (error) {
+    console.error('Download failed:', error)
+    throw error
+  }
 }
 
-export function downloadImage(url: string, filename: string) {
-  const link = document.createElement('a')
-  link.href = url
-  link.download = filename
-  document.body.appendChild(link)
-  link.click()
-  document.body.removeChild(link)
+export function formatDate(dateString: string): string {
+  const date = new Date(dateString)
+  return date.toLocaleDateString('zh-CN', {
+    year: 'numeric',
+    month: 'short',
+    day: 'numeric'
+  })
 }

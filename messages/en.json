@@ -1,0 +1,437 @@
+{
+  "common": {
+    "loading": "Loading...",
+    "error": "Error",
+    "success": "Success",
+    "cancel": "Cancel",
+    "confirm": "Confirm",
+    "save": "Save",
+    "delete": "Delete",
+    "edit": "Edit",
+    "close": "Close",
+    "search": "Search",
+    "filter": "Filter",
+    "sort": "Sort",
+    "share": "Share",
+    "download": "Download",
+    "upload": "Upload",
+    "preview": "Preview",
+    "generate": "Generate",
+    "generating": "Generating...",
+    "processing": "Processing...",
+    "retry": "Retry",
+    "back": "Back",
+    "next": "Next",
+    "previous": "Previous",
+    "home": "Home",
+    "gallery": "Gallery",
+    "explore": "Explore",
+    "pricing": "Pricing",
+    "help": "Help",
+    "login": "Login",
+    "logout": "Logout",
+    "register": "Register",
+    "account": "Account",
+    "profile": "Profile",
+    "settings": "Settings",
+    "dashboard": "Dashboard",
+    "support": "Support",
+    "contact": "Contact",
+    "about": "About",
+    "terms": "Terms",
+    "privacy": "Privacy",
+    "language": "Language"
+  },
+  "navigation": {
+    "home": "Home",
+    "generate": "Generate",
+    "gallery": "Gallery",
+    "explore": "Explore",
+    "pricing": "Pricing",
+    "help": "Help Center",
+    "faq": "FAQ",
+    "login": "Login",
+    "logout": "Logout",
+    "register": "Register",
+    "dashboard": "Dashboard",
+    "profile": "Profile"
+  },
+  "hero": {
+    "title": "Create Stunning Ghibli-Style Art with AI",
+    "subtitle": "Transform your ideas into magical Ghibli-style artwork using advanced AI technology",
+    "description": "Experience the magic of AI-powered art generation. Create beautiful, unique Ghibli-style images from text descriptions or upload your photos for stunning transformations.",
+    "cta": "Start Creating",
+    "secondaryCta": "Explore Gallery",
+    "features": {
+      "aiPowered": "AI-Powered Generation",
+      "highQuality": "High Quality Output",
+      "fastProcessing": "Fast Processing",
+      "freeToUse": "Free to Use"
+    }
+  },
+  "features": {
+    "title": "Powerful Features",
+    "subtitle": "Everything you need to create amazing Ghibli-style art",
+    "items": {
+      "textToImage": {
+        "title": "Text to Image",
+        "description": "Describe your vision in words and watch AI bring it to life in beautiful Ghibli style"
+      },
+      "imageToImage": {
+        "title": "Image to Image",
+        "description": "Transform your existing photos into magical Ghibli-style artwork"
+      },
+      "multipleStyles": {
+        "title": "Multiple Styles",
+        "description": "Choose from various Ghibli-inspired art styles to match your creative vision"
+      },
+      "highResolution": {
+        "title": "High Resolution",
+        "description": "Generate high-quality images up to 4K resolution for professional use"
+      },
+      "fastGeneration": {
+        "title": "Fast Generation",
+        "description": "Get your AI-generated artwork in seconds, not minutes"
+      },
+      "freeAccess": {
+        "title": "Free Access",
+        "description": "Start creating immediately with our generous free tier"
+      }
+    }
+  },
+  "generation": {
+    "title": "AI Image Generation",
+    "subtitle": "Create magical Ghibli-style artwork",
+    "prompt": {
+      "label": "Prompt",
+      "placeholder": "Describe the scene you want to create...",
+      "examples": [
+        "A peaceful village in the mountains with cherry blossoms",
+        "A magical forest with glowing mushrooms and fireflies",
+        "A cozy cottage by a lake with autumn trees",
+        "A young girl flying on a broomstick over a city at night"
+      ]
+    },
+    "style": {
+      "label": "Style",
+      "options": {
+        "classic": "Classic Ghibli",
+        "fantasy": "Fantasy Ghibli",
+        "realistic": "Realistic Ghibli",
+        "whimsical": "Whimsical Ghibli"
+      }
+    },
+    "aspectRatio": {
+      "label": "Aspect Ratio",
+      "options": {
+        "1:1": "Square (1:1)",
+        "16:9": "Landscape (16:9)",
+        "9:16": "Portrait (9:16)",
+        "4:3": "Classic (4:3)"
+      }
+    },
+    "quality": {
+      "label": "Quality",
+      "options": {
+        "standard": "Standard",
+        "high": "High",
+        "ultra": "Ultra"
+      }
+    },
+    "generateButton": "Generate Image",
+    "generatingButton": "Generating...",
+    "uploadImage": "Upload Image",
+    "uploadPrompt": "Drop your image here or click to browse",
+    "advancedOptions": "Advanced Options"
+  },
+  "gallery": {
+    "title": "Community Gallery",
+    "subtitle": "Discover amazing Ghibli-style artwork created by our community",
+    "searchPlaceholder": "Search artwork...",
+    "filterBy": "Filter by",
+    "sortBy": "Sort by",
+    "noResults": "No artwork found",
+    "loadMore": "Load More",
+    "by": "by",
+    "likes": "likes",
+    "views": "views",
+    "share": "Share",
+    "download": "Download",
+    "report": "Report"
+  },
+  "auth": {
+    "login": {
+      "title": "Welcome Back",
+      "subtitle": "Sign in to your account to continue creating",
+      "email": "Email",
+      "password": "Password",
+      "forgotPassword": "Forgot password?",
+      "noAccount": "Don't have an account?",
+      "signUp": "Sign up",
+      "googleLogin": "Continue with Google",
+      "githubLogin": "Continue with GitHub"
+    },
+    "register": {
+      "title": "Create Account",
+      "subtitle": "Join thousands of creators making amazing Ghibli-style art",
+      "name": "Full Name",
+      "email": "Email",
+      "password": "Password",
+      "confirmPassword": "Confirm Password",
+      "agreeTo": "I agree to the",
+      "terms": "Terms of Service",
+      "and": "and",
+      "privacy": "Privacy Policy",
+      "haveAccount": "Already have an account?",
+      "signIn": "Sign in"
+    }
+  },
+  "dashboard": {
+    "title": "Creative Studio",
+    "subtitle": "Manage your AI artwork collection",
+    "welcome": "Welcome back, {name}!",
+    "quickActions": {
+      "title": "Quick Actions",
+      "createNew": "Create New Artwork",
+      "viewGallery": "View Gallery",
+      "manageAccount": "Manage Account"
+    },
+    "stats": {
+      "title": "Creation Stats",
+      "totalWorks": "Total Artworks",
+      "thisMonth": "This Month",
+      "publicWorks": "Public Works",
+      "totalLikes": "Total Likes",
+      "totalViews": "Total Views",
+      "storageUsed": "Storage Used",
+      "creditsLeft": "Credits Left"
+    },
+    "recentWorks": {
+      "title": "Recent Works",
+      "viewAll": "View All",
+      "noWorks": "No works yet",
+      "createFirst": "Create your first artwork"
+    },
+    "popularWorks": {
+      "title": "Popular Works",
+      "mostLiked": "Most Liked",
+      "mostViewed": "Most Viewed"
+    },
+    "activity": {
+      "title": "Recent Activity",
+      "generated": "Generated new artwork",
+      "liked": "Liked artwork",
+      "shared": "Shared artwork",
+      "commented": "Commented on artwork",
+      "followed": "Followed user",
+      "noActivity": "No recent activity"
+    },
+    "achievements": {
+      "title": "Achievement Badges",
+      "firstGeneration": "First Creation",
+      "tenGenerations": "Creative Enthusiast",
+      "hundredGenerations": "Master Creator",
+      "firstLike": "First Recognition",
+      "popularCreator": "Popular Creator",
+      "dailyCreator": "Daily Creator",
+      "weeklyCreator": "Weekly Active",
+      "monthlyCreator": "Monthly Creator"
+    },
+    "insights": {
+      "title": "Creative Insights",
+      "mostUsedStyle": "Most Used Style",
+      "averageQuality": "Average Quality Score",
+      "creationTrend": "Creation Trend",
+      "popularTimes": "Active Hours",
+      "improvementTips": "Improvement Tips"
+    },
+    "myImages": "My Artworks",
+    "favorites": "Favorites",
+    "collections": "Collections",
+    "settings": "Settings",
+    "profile": "Profile",
+    "billing": "Billing",
+    "support": "Support",
+    "noImages": "No artworks yet. Start creating!",
+    "loginRequired": "Please Login First",
+    "loginDesc": "You need to login to view your personal artworks",
+    "goLogin": "Go to Login",
+    "actions": {
+      "view": "View",
+      "edit": "Edit",
+      "share": "Share",
+      "download": "Download",
+      "delete": "Delete",
+      "setPublic": "Set Public",
+      "setPrivate": "Set Private",
+      "addToCollection": "Add to Collection",
+      "copyLink": "Copy Link"
+    },
+    "filters": {
+      "all": "All",
+      "public": "Public",
+      "private": "Private",
+      "recent": "Recent",
+      "popular": "Popular",
+      "byDate": "By Date",
+      "byLikes": "By Likes",
+      "byViews": "By Views"
+    },
+    "messages": {
+      "deleteConfirm": "Are you sure you want to delete this image? This action cannot be undone.",
+      "deleteSuccess": "Image deleted successfully",
+      "deleteError": "Failed to delete image, please try again later",
+      "setPrivate": "Set to private",
+      "setPublic": "Set to public",
+      "updateError": "Update failed, please try again later",
+      "downloadStart": "Download started",
+      "downloadError": "Download failed, please try again later",
+      "shareSuccess": "Share link copied to clipboard",
+      "shareError": "Share failed, please try again later",
+      "loadError": "Failed to load images, please try again later",
+      "imageLoading": "Image loading",
+      "linkCopied": "Link copied"
+    },
+    "status": {
+      "public": "Public",
+      "private": "Private",
+      "processing": "Processing",
+      "failed": "Generation Failed",
+      "completed": "Completed"
+    }
+  },
+  "pricing": {
+    "title": "Choose Your Plan",
+    "subtitle": "Start free, upgrade when you're ready",
+    "free": {
+      "title": "Free",
+      "price": "$0",
+      "period": "per month",
+      "features": [
+        "50 generations per month",
+        "Standard quality",
+        "Community support",
+        "Basic styles"
+      ],
+      "cta": "Get Started"
+    },
+    "pro": {
+      "title": "Pro",
+      "price": "$9",
+      "period": "per month",
+      "features": [
+        "500 generations per month",
+        "High quality",
+        "Priority support",
+        "All styles",
+        "No watermark",
+        "Commercial license"
+      ],
+      "cta": "Upgrade to Pro"
+    },
+    "enterprise": {
+      "title": "Enterprise",
+      "price": "Custom",
+      "period": "contact us",
+      "features": [
+        "Unlimited generations",
+        "Ultra quality",
+        "Dedicated support",
+        "Custom styles",
+        "API access",
+        "White-label option"
+      ],
+      "cta": "Contact Sales"
+    }
+  },
+  "errors": {
+    "generic": "Something went wrong. Please try again.",
+    "network": "Network error. Please check your connection.",
+    "auth": "Authentication failed. Please sign in again.",
+    "rateLimit": "Rate limit exceeded. Please try again later.",
+    "invalidPrompt": "Please enter a valid prompt.",
+    "imageTooLarge": "Image is too large. Please upload a smaller image.",
+    "unsupportedFormat": "Unsupported image format. Please use JPG, PNG, or WebP."
+  },
+  "components": {
+    "hero": {
+      "badge": "Create with AI",
+      "title": "Ghibli-Style",
+      "titleHighlight": "Artwork",
+      "description": "Transform your ideas into beautiful Ghibli-style images using advanced AI technology. No professional skills required - just describe your vision and AI will create it for you.",
+      "startCreating": "Start Creating",
+      "browseGallery": "Browse Gallery",
+      "features": {
+        "fastGeneration": "Fast Generation",
+        "multipleStyles": "Multiple Styles",
+        "freeDownload": "Free Download"
+      },
+      "featuredWorks": "Featured Works"
+    },
+    "generationSection": {
+      "badge": "Try Now",
+      "title": "Start Your Creative Journey",
+      "description": "Choose an example or enter your creativity to instantly generate beautiful Ghibli-style images",
+      "quickExamples": [
+        "A cute Totoro in the forest, Ghibli style",
+        "The bathhouse from Spirited Away, warm night lights",
+        "Castle in the Sky floating in the clouds",
+        "Kiki flying on a broomstick from Kiki's Delivery Service"
+      ],
+      "orEnterIdea": "Or enter your creative idea",
+      "generate": "Generate",
+      "advancedSettings": "Advanced Settings",
+      "needMoreOptions": "Need more options?",
+      "goToFullPage": "Go to full generation page",
+      "moreExamples": "💡 More Example Prompts",
+      "collapseInterface": "Collapse Interface",
+      "additionalExamples": [
+        "Howl's Moving Castle in a flower field",
+        "Ponyo running on the beach from Ponyo on the Cliff",
+        "Ponyo swimming in the waves, cute style",
+        "Forest spirits with dreamy lighting"
+      ]
+    },
+    "generationForm": {
+      "title": "Creation Settings",
+      "promptLabel": "Describe the image you want *",
+      "promptPlaceholder": "For example: A girl in a red dress running on green grass, Studio Ghibli style, high quality, detailed",
+      "promptHelp": "Detailed descriptions help AI better understand your creativity",
+      "negativePromptLabel": "Unwanted elements (optional)",
+      "negativePromptPlaceholder": "For example: low quality, blurry, deformed, ugly",
+      "aiModelLabel": "AI Model",
+      "aiModelOptions": {
+        "siliconflow": "SiliconFlow (Recommended)",
+        "replicate": "Replicate"
+      },
+      "imageSizeLabel": "Image Size",
+      "stepsLabel": "Generation Steps",
+      "stepsOptions": {
+        "fast": "10 (Fast)",
+        "recommended": "20 (Recommended)",
+        "detailed": "30 (Detailed)"
+      },
+      "generateButton": "Start Generation",
+      "generatingButton": "Generating...",
+      "enterPrompt": "Please enter image description",
+      "generatingImage": "Generating image...",
+      "generationSuccess": "Image generated successfully!"
+    },
+    "generationResult": {
+      "title": "Generation Result",
+      "downloadAll": "Download All",
+      "downloading": "Downloading...",
+      "downloadImage": "Download Image",
+      "directDownload": "Direct Download",
+      "shareImage": "Share Image",
+      "generationPrompt": "Generation Prompt",
+      "myAiWork": "My AI Generated Work",
+      "linkCopied": "Link copied to clipboard"
+    },
+    "languageSwitcher": {
+      "switchLanguage": "Switch Language",
+      "chinese": "中文",
+      "english": "English"
+    }
+  }
+}

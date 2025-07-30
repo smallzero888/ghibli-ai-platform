@@ -1,4 +1,4 @@
-import { User } from '@supabase/auth-helpers-nextjs'
+import { User } from '@/types'
 import Image from 'next/image'
 
 interface AvatarProps {
@@ -17,9 +17,9 @@ export function Avatar({ user, size = 'md' }: AvatarProps) {
 
   return (
     <div className={`${sizeClasses[size]} rounded-full bg-ghibli-green flex items-center justify-center text-white font-medium overflow-hidden`}>
-      {user.user_metadata?.avatar_url ? (
+      {user.avatar_url ? (
         <Image
-          src={user.user_metadata.avatar_url}
+          src={user.avatar_url}
           alt={user.email || 'User'}
           width={size === 'lg' ? 64 : size === 'md' ? 40 : 32}
           height={size === 'lg' ? 64 : size === 'md' ? 40 : 32}

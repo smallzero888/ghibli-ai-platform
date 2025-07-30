@@ -3,9 +3,10 @@
 import { useState } from 'react'
 import Image from 'next/image'
 import { motion } from 'framer-motion'
-import { Heart, Eye, Download, Share2, MoreHorizontal } from 'lucide-react'
+import { Heart, Eye, Download, Share2, MoreHorizontal, ExternalLink } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import { formatDate } from '@/lib/utils'
+import { downloadImage } from '@/lib/utils'
 
 interface ImageCardProps {
   image: {
@@ -41,15 +42,28 @@ export function ImageCard({
 }: ImageCardProps) {
   const [imageLoaded, setImageLoaded] = useState(false)
   const [imageError, setImageError] = useState(false)
+  const [isDownloading, setIsDownloading] = useState(false)
 
   const handleLike = (e: React.MouseEvent) => {
     e.stopPropagation()
     onLike?.(image.id)
   }
 
-  const handleFavorite = (e: React.MouseEvent) => {
+  const handleDownload = async (e: React.MouseEvent) => {
     e.stopPropagation()
-    onFavorite?.(image.id)
+    setIsDownloading(true)
+    try {
+      await downloadImage(image.url, `ghibli-ai-${image.id}.png`)
+    } catch (error) {
+      console.error('下载失败:', error)
+    } finally {
+      setIsDownloading(false)
+    }
+  }
+
+  const handleViewOriginal = (e: React.MouseEvent) => {
+    e.stopPropagation()
+    window.open(image.url, '_blank')
   }
 
   const handleClick = () => {
@@ -94,6 +108,36 @@ export function ImageCard({
               onError={() => setImageError(true)}
               sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
             />
+            
+            {/* 图片悬停时的操作按钮 */}
+            <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-all duration-200">
+              <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-200">
+                <div className="flex space-x-2">
+                  <motion.button
+                    className="p-3 bg-white/90 rounded-full shadow-lg hover:bg-white transition-colors"
+                    onClick={handleViewOriginal}
+                    whileHover={{ scale: 1.1 }}
+                    whileTap={{ scale: 0.9 }}
+                    title="查看原图"
+                  >
+                    <ExternalLink className="w-5 h-5 text-gray-700" />
+                  </motion.button>
+                  <motion.button
+                    className="p-3 bg-white/90 rounded-full shadow-lg hover:bg-white transition-colors"
+                    onClick={handleDownload}
+                    whileHover={{ scale: 1.1 }}
+                    whileTap={{ scale: 0.9 }}
+                    title="下载图片"
+                    disabled={isDownloading}
+                  >
+                    <Download className={cn(
+                      "w-5 h-5 text-gray-700",
+                      isDownloading && "animate-pulse"
+                    )} />
+                  </motion.button>
+                </div>
+              </div>
+            </div>
           </>
         ) : (
           <div className="absolute inset-0 bg-ghibli-cream-200 flex items-center justify-center">
@@ -102,30 +146,28 @@ export function ImageCard({
         )}
         
         {/* 悬浮操作按钮 */}
-        <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors duration-200">
-          <div className="absolute top-2 right-2 opacity-0 group-hover:opacity-100 transition-opacity duration-200">
-            <div className="flex space-x-1">
-              <motion.button
-                className="p-2 bg-white/90 rounded-full shadow-sm hover:bg-white transition-colors"
-                onClick={handleLike}
-                whileHover={{ scale: 1.1 }}
-                whileTap={{ scale: 0.9 }}
-              >
-                <Heart 
-                  className={cn(
-                    "w-4 h-4",
-                    image.is_liked ? "fill-red-500 text-red-500" : "text-gray-600"
-                  )} 
-                />
-              </motion.button>
-              <motion.button
-                className="p-2 bg-white/90 rounded-full shadow-sm hover:bg-white transition-colors"
-                whileHover={{ scale: 1.1 }}
-                whileTap={{ scale: 0.9 }}
-              >
-                <MoreHorizontal className="w-4 h-4 text-gray-600" />
-              </motion.button>
-            </div>
+        <div className="absolute top-2 right-2 opacity-0 group-hover:opacity-100 transition-opacity duration-200">
+          <div className="flex space-x-1">
+            <motion.button
+              className="p-2 bg-white/90 rounded-full shadow-sm hover:bg-white transition-colors"
+              onClick={handleLike}
+              whileHover={{ scale: 1.1 }}
+              whileTap={{ scale: 0.9 }}
+            >
+              <Heart 
+                className={cn(
+                  "w-4 h-4",
+                  image.is_liked ? "fill-red-500 text-red-500" : "text-gray-600"
+                )} 
+              />
+            </motion.button>
+            <motion.button
+              className="p-2 bg-white/90 rounded-full shadow-sm hover:bg-white transition-colors"
+              whileHover={{ scale: 1.1 }}
+              whileTap={{ scale: 0.9 }}
+            >
+              <MoreHorizontal className="w-4 h-4 text-gray-600" />
+            </motion.button>
           </div>
         </div>
       </div>

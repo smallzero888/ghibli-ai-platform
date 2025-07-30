@@ -2,6 +2,9 @@
 
 import { useState } from 'react'
 import { useAuth } from '@/lib/auth-context'
+
+// Force dynamic rendering
+export const dynamic = 'force-dynamic'
 import { GenerationForm } from '@/components/generate/generation-form'
 import { GenerationResult } from '@/components/generate/generation-result'
 import { Header } from '@/components/layout/header'

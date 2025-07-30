@@ -1,19 +1,6 @@
-import { Hero } from '@/components/home/hero'
-import { Features } from '@/components/home/features'
-import { Gallery } from '@/components/home/gallery'
-import { Header } from '@/components/layout/header'
-import { Footer } from '@/components/layout/footer'
+import { redirect } from 'next/navigation'
 
-export default function HomePage() {
-  return (
-    <div className="min-h-screen bg-ghibli-cream">
-      <Header />
-      <main>
-        <Hero />
-        <Features />
-        <Gallery />
-      </main>
-      <Footer />
-    </div>
-  )
+// This page redirects to the default locale
+export default function RootPage() {
+  redirect('/zh')
 }

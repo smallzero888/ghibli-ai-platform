@@ -69,7 +69,7 @@ app = FastAPI(
 # 添加CORS中间件
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=settings.ALLOWED_ORIGINS,
+    allow_origins=settings.allowed_origins_list,
     allow_credentials=True,
     allow_methods=["GET", "POST", "PUT", "DELETE", "OPTIONS"],
     allow_headers=["*"],
@@ -187,13 +187,14 @@ async def root():
     }
 
 # 导入API路由
-from app.api import auth, users, generate, images
+from app.api import auth, users, generate, images, test_generate
 
 # 注册API路由
 app.include_router(auth.router, prefix="/api/auth", tags=["认证"])
 app.include_router(users.router, prefix="/api/users", tags=["用户管理"])
 app.include_router(generate.router, prefix="/api/generate", tags=["图片生成"])
 app.include_router(images.router, prefix="/api/images", tags=["图片管理"])
+app.include_router(test_generate.router, prefix="/api/test", tags=["测试接口"])
 
 if __name__ == "__main__":
     import uvicorn

@@ -44,11 +44,14 @@ class Settings(BaseSettings):
     MAX_FILE_SIZE: int = 10 * 1024 * 1024  # 10MB
     
     # CORS配置
-    ALLOWED_ORIGINS: list = [
-        "http://localhost:3000",
-        "http://127.0.0.1:3000",
-        "https://your-domain.com"
-    ]
+    ALLOWED_ORIGINS: str = os.getenv("ALLOWED_ORIGINS", "http://localhost:3000,http://127.0.0.1:3000,http://localhost:3001,http://127.0.0.1:3001")
+    
+    @property
+    def allowed_origins_list(self) -> list:
+        """将CORS配置转换为列表"""
+        if isinstance(self.ALLOWED_ORIGINS, str):
+            return [origin.strip() for origin in self.ALLOWED_ORIGINS.split(",")]
+        return self.ALLOWED_ORIGINS
     
     class Config:
         env_file = ".env"

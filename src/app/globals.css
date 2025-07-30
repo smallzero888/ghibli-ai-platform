@@ -2,6 +2,9 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Arabic font support */
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+Arabic:wght@400;500;600;700&display=swap');
+
 @layer base {
   :root {
     --background: 48 46 42;
@@ -190,4 +193,27 @@
     -webkit-box-orient: vertical;
     overflow: hidden;
   }
+}
+
+/* Arabic language support */
+[dir="rtl"] {
+  font-family: 'Noto Sans Arabic', Arial, sans-serif;
+}
+
+/* Ensure Arabic text displays correctly */
+.arabic-text {
+  font-family: 'Noto Sans Arabic', Arial, sans-serif;
+  direction: rtl;
+  text-align: right;
+}
+
+/* Fix for Arabic in language switcher - only apply font, not direction */
+[lang="ar"] {
+  font-family: 'Noto Sans Arabic', Arial, sans-serif;
+}
+
+/* Arabic text in language switcher should display RTL but not affect layout */
+.language-switcher [lang="ar"] {
+  font-family: 'Noto Sans Arabic', Arial, sans-serif;
+  unicode-bidi: embed;
 }

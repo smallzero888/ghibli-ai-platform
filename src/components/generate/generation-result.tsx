@@ -5,9 +5,10 @@ import Image from 'next/image'
 import { Button } from '@/components/ui/button'
 import { apiClient } from '@/lib/api'
 import { GenerationTask } from '@/types'
-import { Download, Share2, RefreshCw } from 'lucide-react'
+import { Download, Share2, RefreshCw, ExternalLink, Eye } from 'lucide-react'
 import { downloadImage } from '@/lib/utils'
 import { showToast } from '@/lib/toast'
+import { cn } from '@/lib/utils'
 
 interface GenerationResultProps {
   task: GenerationTask | null
@@ -16,6 +17,8 @@ interface GenerationResultProps {
 export function GenerationResult({ task }: GenerationResultProps) {
   const [currentTask, setCurrentTask] = useState<GenerationTask | null>(task)
   const [polling, setPolling] = useState(false)
+  const [isDownloading, setIsDownloading] = useState(false)
+  const [isViewing, setIsViewing] = useState(false)
 
   useEffect(() => {
     setCurrentTask(task)
@@ -49,26 +52,50 @@ export function GenerationResult({ task }: GenerationResultProps) {
     return () => clearInterval(interval)
   }, [currentTask, polling])
 
-  const handleDownload = () => {
-    if (currentTask?.result_url) {
-      downloadImage(currentTask.result_url, `ghibli-ai-${currentTask.id}.png`)
+  const handleDownload = async () => {
+    if (!currentTask?.result_url) return
+    
+    setIsDownloading(true)
+    try {
+      await downloadImage(currentTask.result_url, `ghibli-ai-${currentTask.id}.png`)
+      showToast.success('图片下载成功！')
+    } catch (error) {
+      console.error('下载失败:', error)
+      showToast.error('下载失败，请重试')
+    } finally {
+      setIsDownloading(false)
     }
   }
 
+  const handleViewOriginal = () => {
+    if (!currentTask?.result_url) return
+    window.open(currentTask.result_url, '_blank')
+  }
+
   const handleShare = async () => {
-    if (currentTask?.result_url) {
-      try {
+    if (!currentTask?.result_url) return
+    
+    try {
+      if (navigator.share) {
         await navigator.share({
           title: '我的AI生成作品',
           text: currentTask.prompt,
           url: currentTask.result_url,
         })
-      } catch (error) {
-        // 如果不支持原生分享，复制链接到剪贴板
-        navigator.clipboard.writeText(currentTask.result_url)
-        alert('链接已复制到剪贴板')
+      } else {
+        // 复制链接到剪贴板
+        await navigator.clipboard.writeText(currentTask.result_url)
+        showToast.success('链接已复制到剪贴板')
       }
+    } catch (error) {
+      console.error('分享失败:', error)
+      showToast.error('分享失败，请重试')
     }
+  }
+
+  const handlePreview = () => {
+    if (!currentTask?.result_url) return
+    setIsViewing(true)
   }
 
   if (!currentTask) {
@@ -112,30 +139,51 @@ export function GenerationResult({ task }: GenerationResultProps) {
 
       {currentTask.status === 'completed' && currentTask.result_url && (
         <div className="space-y-4">
+          {/* 图片预览区域 */}
           <div className="relative aspect-square rounded-lg overflow-hidden bg-gray-100">
             <Image
               src={currentTask.result_url}
               alt={currentTask.prompt}
               fill
-              className="object-cover"
+              className="object-cover cursor-pointer"
+              onClick={handlePreview}
+              sizes="(max-width: 768px) 100vw, 50vw"
             />
+            
+            {/* 图片悬停时的操作提示 */}
+            <div className="absolute inset-0 bg-black/0 hover:bg-black/20 transition-all duration-200 flex items-center justify-center opacity-0 hover:opacity-100">
+              <div className="text-white text-center">
+                <Eye className="w-8 h-8 mx-auto mb-2" />
+                <p className="text-sm">点击查看大图</p>
+              </div>
+            </div>
           </div>
           
-          <div className="space-y-3">
+          {/* 操作按钮组 */}
+          <div className="grid grid-cols-2 gap-2">
+            <Button onClick={handleViewOriginal} variant="outline">
+              <ExternalLink className="w-4 h-4 mr-2" />
+              查看原图
+            </Button>
+            <Button onClick={handleDownload} disabled={isDownloading}>
+              <Download className={cn(
+                "w-4 h-4 mr-2",
+                isDownloading && "animate-pulse"
+              )} />
+              {isDownloading ? '下载中...' : '下载图片'}
+            </Button>
+          </div>
+          
+          <Button onClick={handleShare} variant="outline" className="w-full">
+            <Share2 className="w-4 h-4 mr-2" />
+            分享作品
+          </Button>
+          
+          {/* 提示词信息 */}
+          <div className="space-y-3 p-4 bg-gray-50 rounded-lg">
             <div>
               <h4 className="font-medium text-gray-900 mb-1">提示词</h4>
               <p className="text-sm text-gray-600">{currentTask.prompt}</p>
-            </div>
-            
-            <div className="flex gap-2">
-              <Button onClick={handleDownload} className="flex-1">
-                <Download className="w-4 h-4 mr-2" />
-                下载
-              </Button>
-              <Button variant="outline" onClick={handleShare} className="flex-1">
-                <Share2 className="w-4 h-4 mr-2" />
-                分享
-              </Button>
             </div>
           </div>
         </div>
@@ -155,6 +203,38 @@ export function GenerationResult({ task }: GenerationResultProps) {
           <Button variant="outline">
             重新生成
           </Button>
+        </div>
+      )}
+
+      {/* 图片预览模态框 */}
+      {isViewing && currentTask?.result_url && (
+        <div 
+          className="fixed inset-0 bg-black/90 z-50 flex items-center justify-center p-4"
+          onClick={() => setIsViewing(false)}
+        >
+          <div className="relative max-w-4xl max-h-full">
+            <img 
+              src={currentTask.result_url} 
+              alt={currentTask.prompt}
+              className="max-w-full max-h-full object-contain rounded-lg"
+            />
+            <button
+              className="absolute -top-12 right-0 text-white hover:text-gray-300"
+              onClick={() => setIsViewing(false)}
+            >
+              ✕
+            </button>
+            <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 flex gap-2">
+              <Button onClick={handleDownload} size="sm">
+                <Download className="w-4 h-4 mr-2" />
+                下载
+              </Button>
+              <Button onClick={handleViewOriginal} variant="outline" size="sm">
+                <ExternalLink className="w-4 h-4 mr-2" />
+                新窗口打开
+              </Button>
+            </div>
+          </div>
         </div>
       )}
     </div>

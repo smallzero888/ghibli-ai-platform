@@ -1,21 +1,34 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
 import { useAuth } from '@/lib/auth-context'
+
+// Force dynamic rendering
+export const dynamic = 'force-dynamic'
 import { Button } from '@/components/ui/button'
 import { Eye, EyeOff, Mail, Lock } from 'lucide-react'
 import { showToast } from '@/lib/toast'
+import { GoogleLogin } from '@/components/auth/google-login'
 
 export default function LoginPage() {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [showPassword, setShowPassword] = useState(false)
   const [loading, setLoading] = useState(false)
+  const [mounted, setMounted] = useState(false)
   
   const { signIn } = useAuth()
   const router = useRouter()
+
+  useEffect(() => {
+    setMounted(true)
+  }, [])
+
+  if (!mounted) {
+    return <div>Loading...</div>
+  }
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -130,6 +143,21 @@ export default function LoginPage() {
                 立即注册
               </Link>
             </p>
+          </div>
+
+          <div className="mt-6">
+            <div className="relative">
+              <div className="absolute inset-0 flex items-center">
+                <div className="w-full border-t border-gray-300" />
+              </div>
+              <div className="relative flex justify-center text-sm">
+                <span className="px-2 bg-white text-gray-500">或</span>
+              </div>
+            </div>
+          </div>
+
+          <div className="mt-6">
+            <GoogleLogin mode="login" />
           </div>
         </div>
       </div>

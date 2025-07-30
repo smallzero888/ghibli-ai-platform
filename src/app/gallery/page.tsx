@@ -3,6 +3,9 @@
 import { useState, useEffect } from 'react'
 import Image from 'next/image'
 import { Header } from '@/components/layout/header'
+
+// Force dynamic rendering
+export const dynamic = 'force-dynamic'
 import { Button } from '@/components/ui/button'
 import { Image as ImageType } from '@/types'
 import { apiClient } from '@/lib/api'

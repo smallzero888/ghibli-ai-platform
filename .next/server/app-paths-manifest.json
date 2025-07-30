@@ -1,6 +1,5 @@
 {
-  "/_not-found/page": "app/_not-found/page.js",
-  "/page": "app/page.js",
-  "/generate/page": "app/generate/page.js",
-  "/gallery/page": "app/gallery/page.js"
+  "/[locale]/page": "app/[locale]/page.js",
+  "/[locale]/generate/page": "app/[locale]/generate/page.js",
+  "/[locale]/register/page": "app/[locale]/register/page.js"
 }

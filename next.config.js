@@ -1,16 +1,30 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  experimental: {
-    appDir: true,
-  },
   images: {
-    domains: ['supabase.co', 'replicate.delivery'],
-    formats: ['image/webp', 'image/avif'],
+    domains: ['replicate.delivery', 'pbxt.replicate.delivery', 'localhost', 'picsum.photos'],
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: '**',
+      },
+    ],
   },
-  env: {
-    NEXT_PUBLIC_SUPABASE_URL: process.env.NEXT_PUBLIC_SUPABASE_URL,
-    NEXT_PUBLIC_SUPABASE_ANON_KEY: process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY,
+  async rewrites() {
+    return [
+      {
+        source: '/api/:path*',
+        destination: 'http://localhost:8000/api/:path*',
+      },
+    ];
   },
-}
+  // Skip static generation for auth-related pages
+  async generateStaticParams() {
+    return []
+  },
+  // Disable static generation for pages that use auth
+  experimental: {
+    missingSuspenseWithCSRBailout: false,
+  },
+};
 
-module.exports = nextConfig
+module.exports = nextConfig;

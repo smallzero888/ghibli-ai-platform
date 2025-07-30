@@ -1,10 +1,11 @@
-from sqlalchemy import create_engine
+from sqlalchemy import create_engine, text
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy.pool import QueuePool
 import logging
 
 from .config import settings
+from .supabase import get_supabase_client
 
 logger = logging.getLogger(__name__)
 
@@ -49,9 +50,14 @@ def test_database_connection():
     """测试数据库连接"""
     try:
         with engine.connect() as connection:
-            result = connection.execute("SELECT 1")
+            result = connection.execute(text("SELECT 1"))
             logger.info("✅ 数据库连接测试成功")
             return True
     except Exception as e:
         logger.error(f"❌ 数据库连接测试失败: {e}")
         return False
+
+# Supabase依赖
+def get_supabase():
+    """获取Supabase客户端"""
+    return get_supabase_client()

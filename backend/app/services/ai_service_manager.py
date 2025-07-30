@@ -130,7 +130,7 @@ class AIServiceManager:
         
         return available
     
-    def select_best_service(self, preferred_service: Optional[str] = None) -> str:
+    async def select_best_service(self, preferred_service: Optional[str] = None) -> str:
         """选择最佳服务"""
         available_services = self.get_available_services()
         

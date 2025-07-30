@@ -1,7 +1,5 @@
 import './globals.css'
 import { Providers } from '@/components/providers'
-import { ToastProvider } from '@/components/ui/toaster'
-import { ErrorBoundary } from '@/components/ui/error-boundary'
 
 export const metadata = {
   title: '吉卜力AI图片生成器 - 免费在线AI艺术创作平台',
@@ -15,13 +13,10 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html lang="zh-CN">
-      <body className="font-sans">
+    <html>
+      <body>
         <Providers>
-          <ErrorBoundary>
-            {children}
-          </ErrorBoundary>
-          <ToastProvider />
+          {children}
         </Providers>
       </body>
     </html>
