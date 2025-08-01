@@ -21,15 +21,25 @@
       "static/chunks/main-app.js",
       "static/chunks/app/[locale]/layout.js"
     ],
+    "/[locale]/faq/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/[locale]/faq/page.js"
+    ],
+    "/[locale]/pricing/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/[locale]/pricing/page.js"
+    ],
     "/[locale]/generate/page": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
       "static/chunks/app/[locale]/generate/page.js"
     ],
-    "/[locale]/faq/page": [
+    "/[locale]/gallery/page": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
-      "static/chunks/app/[locale]/faq/page.js"
+      "static/chunks/app/[locale]/gallery/page.js"
     ],
     "/[locale]/login/page": [
       "static/chunks/webpack.js",

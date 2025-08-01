@@ -22,7 +22,12 @@ interface StatsData {
   totalLikes: number
   totalViews?: number
   storageUsed?: number
+  storageLimit?: number
   creditsLeft?: number
+  creditsLimit?: number
+  apiCallsUsed?: number
+  apiCallsLimit?: number
+  plan?: 'free' | 'pro' | 'enterprise'
 }
 
 interface StatsCardsProps {
@@ -124,7 +129,7 @@ export function StatsCards({ stats, loading = false }: StatsCardsProps) {
       })}
       
       {/* Additional stats if available */}
-      {stats.storageUsed !== undefined && (
+      {stats.storageUsed !== undefined && stats.storageLimit !== undefined && (
         <Card className="hover:shadow-lg transition-shadow duration-200">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-medium text-gray-600">
@@ -138,13 +143,15 @@ export function StatsCards({ stats, loading = false }: StatsCardsProps) {
             <div className="text-2xl font-bold text-purple-500 mb-2">
               {(stats.storageUsed / 1024 / 1024).toFixed(1)} MB
             </div>
-            <Progress value={(stats.storageUsed / (100 * 1024 * 1024)) * 100} className="h-2" />
-            <p className="text-xs text-gray-500 mt-1">of 100 MB used</p>
+            <Progress value={(stats.storageUsed / stats.storageLimit) * 100} className="h-2" />
+            <p className="text-xs text-gray-500 mt-1">
+              of {(stats.storageLimit / 1024 / 1024).toFixed(0)} MB used
+            </p>
           </CardContent>
         </Card>
       )}
       
-      {stats.creditsLeft !== undefined && (
+      {stats.creditsLeft !== undefined && stats.creditsLimit !== undefined && (
         <Card className="hover:shadow-lg transition-shadow duration-200">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-medium text-gray-600">
@@ -158,7 +165,53 @@ export function StatsCards({ stats, loading = false }: StatsCardsProps) {
             <div className="text-2xl font-bold text-orange-500">
               {stats.creditsLeft}
             </div>
-            <p className="text-xs text-gray-500">credits remaining</p>
+            <Progress value={(stats.creditsLeft / stats.creditsLimit) * 100} className="h-2 mt-2" />
+            <p className="text-xs text-gray-500 mt-1">
+              of {stats.creditsLimit} credits remaining
+            </p>
+          </CardContent>
+        </Card>
+      )}
+      
+      {stats.apiCallsUsed !== undefined && stats.apiCallsLimit !== undefined && (
+        <Card className="hover:shadow-lg transition-shadow duration-200">
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+            <CardTitle className="text-sm font-medium text-gray-600">
+              {t('dashboard.stats.apiCalls')}
+            </CardTitle>
+            <div className="p-2 rounded-lg bg-blue-50">
+              <BarChart3 className="h-4 w-4 text-blue-500" />
+            </div>
+          </CardHeader>
+          <CardContent>
+            <div className="text-2xl font-bold text-blue-500">
+              {stats.apiCallsUsed}
+            </div>
+            <Progress value={(stats.apiCallsUsed / stats.apiCallsLimit) * 100} className="h-2 mt-2" />
+            <p className="text-xs text-gray-500 mt-1">
+              of {stats.apiCallsLimit} API calls used
+            </p>
+          </CardContent>
+        </Card>
+      )}
+      
+      {stats.plan && (
+        <Card className="hover:shadow-lg transition-shadow duration-200">
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+            <CardTitle className="text-sm font-medium text-gray-600">
+              {t('dashboard.stats.currentPlan')}
+            </CardTitle>
+            <div className="p-2 rounded-lg bg-green-50">
+              <Coins className="h-4 w-4 text-green-500" />
+            </div>
+          </CardHeader>
+          <CardContent>
+            <div className="text-2xl font-bold text-green-500 capitalize">
+              {stats.plan}
+            </div>
+            <p className="text-xs text-gray-500 mt-1">
+              {stats.plan === 'free' ? 'Upgrade for more features' : 'Active subscription'}
+            </p>
           </CardContent>
         </Card>
       )}

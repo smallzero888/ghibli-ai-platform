@@ -73,6 +73,22 @@ export default function LoginPage({ params }: { params: { locale: string } }) {
         </div>
 
         <div className="card bg-white/80 backdrop-blur-sm">
+          {/* Google登录 - 放在最前面 */}
+          <div className="mb-6">
+            <GoogleLogin mode="login" />
+          </div>
+
+          <div className="relative mb-6">
+            <div className="absolute inset-0 flex items-center">
+              <div className="w-full border-t border-gray-300" />
+            </div>
+            <div className="relative flex justify-center text-sm">
+              <span className="px-2 bg-white text-gray-500">
+                {t('auth.or') || '或'}
+              </span>
+            </div>
+          </div>
+
           <form onSubmit={handleSubmit} className="space-y-6">
             <div>
               <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-2">
@@ -152,23 +168,6 @@ export default function LoginPage({ params }: { params: { locale: string } }) {
                 {t('auth.register') || '立即注册'}
               </Link>
             </p>
-          </div>
-
-          <div className="mt-6">
-            <div className="relative">
-              <div className="absolute inset-0 flex items-center">
-                <div className="w-full border-t border-gray-300" />
-              </div>
-              <div className="relative flex justify-center text-sm">
-                <span className="px-2 bg-white text-gray-500">
-                  {t('auth.or') || '或'}
-                </span>
-              </div>
-            </div>
-          </div>
-
-          <div className="mt-6">
-            <GoogleLogin mode="login" />
           </div>
         </div>
       </div>

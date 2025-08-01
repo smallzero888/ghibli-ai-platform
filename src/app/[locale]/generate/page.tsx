@@ -5,82 +5,153 @@ import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Input } from '@/components/ui/input'
 import { Textarea } from '@/components/ui/textarea'
-import { Sparkles, Wand2, Image, Settings, Download, ExternalLink } from 'lucide-react'
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
+import { Badge } from '@/components/ui/badge'
+import { Sparkles, Wand2, Image, Settings, Download, ExternalLink, Zap, Palette, Frame } from 'lucide-react'
 import { downloadImage } from '@/lib/utils'
+import { useAuth } from '@/lib/auth-context'
+import { useI18n } from '@/hooks/use-i18n'
+import { showToast } from '@/lib/toast'
+
+// 简单的下拉选择组件
+const Select = ({ value, onValueChange, children }: {
+  value: string;
+  onValueChange: (value: string) => void;
+  children: React.ReactNode
+}) => (
+  <div className="relative">
+    <select
+      value={value}
+      onChange={(e) => onValueChange(e.target.value)}
+      className="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-ghibli-green focus:border-transparent"
+    >
+      {children}
+    </select>
+  </div>
+)
+
+const SelectTrigger = ({ children, className }: { children: React.ReactNode; className?: string }) => (
+  <div className={className}>
+    {children}
+  </div>
+)
+
+const SelectValue = ({ placeholder }: { placeholder?: string }) => (
+  <option value="" disabled>{placeholder}</option>
+)
+
+const SelectContent = ({ children }: { children: React.ReactNode }) => (
+  <>
+    {children}
+  </>
+)
+
+const SelectItem = ({ children, value }: { children: React.ReactNode; value: string }) => (
+  <option value={value}>{children}</option>
+)
+
+// 简单的滑块组件
+const Slider = ({
+  value,
+  onValueChange,
+  max,
+  min,
+  step,
+  className
+}: {
+  value: number[];
+  onValueChange: (value: number[]) => void;
+  max: number;
+  min: number;
+  step: number;
+  className?: string
+}) => (
+  <input
+    type="range"
+    min={min}
+    max={max}
+    step={step}
+    value={value[0]}
+    onChange={(e) => onValueChange([parseFloat(e.target.value)])}
+    className={`w-full ${className || ''}`}
+  />
+)
 
 export default function GeneratePage({ params }: { params: { locale: string } }) {
+  const { user } = useAuth()
+  const { t, locale } = useI18n()
   const [prompt, setPrompt] = useState('')
   const [negativePrompt, setNegativePrompt] = useState('')
   const [isGenerating, setIsGenerating] = useState(false)
   const [generatedImage, setGeneratedImage] = useState<string | null>(null)
   const [isDownloading, setIsDownloading] = useState(false)
   const [error, setError] = useState<string | null>(null)
-  const isEnglish = params.locale === 'en'
+  const [activeTab, setActiveTab] = useState('basic')
+  
+  // Generation parameters
+  const [model, setModel] = useState('siliconflow')
+  const [style, setStyle] = useState('classic')
+  const [width, setWidth] = useState(512)
+  const [height, setHeight] = useState(512)
+  const [steps, setSteps] = useState(20)
+  const [guidanceScale, setGuidanceScale] = useState(7.5)
+  const [seed, setSeed] = useState(-1)
+  const [isPublic, setIsPublic] = useState(false)
 
-  const content = {
-    zh: {
-      title: 'AI图片生成',
-      subtitle: '描述您想要的图片，AI将为您创作精美的吉卜力风格作品',
-      promptLabel: '描述您想要的图片',
-      promptPlaceholder: '例如：一个穿着红色裙子的女孩在绿色草地上奔跑，吉卜力工作室风格，高质量，详细',
-      negativePromptLabel: '不想要的元素（可选）',
-      negativePromptPlaceholder: '例如：低质量，模糊，变形，丑陋',
-      generateButton: '开始生成',
-      generatingButton: '生成中...',
-      downloadButton: '下载图片',
-      viewOriginalButton: '查看原图',
-      examples: [
-        '一只可爱的龙猫在森林中，吉卜力风格',
-        '千与千寻中的汤屋，夜晚灯光温暖',
-        '天空之城的城堡漂浮在云端',
-        '魔女宅急便中的琪琪骑着扫帚飞翔'
-      ]
-    },
-    en: {
-      title: 'AI Image Generation',
-      subtitle: 'Describe the image you want, and AI will create beautiful Ghibli-style artwork for you',
-      promptLabel: 'Describe the image you want',
-      promptPlaceholder: 'For example: A girl in a red dress running on green grass, Studio Ghibli style, high quality, detailed',
-      negativePromptLabel: 'Unwanted elements (optional)',
-      negativePromptPlaceholder: 'For example: low quality, blurry, deformed, ugly',
-      generateButton: 'Start Generation',
-      generatingButton: 'Generating...',
-      downloadButton: 'Download Image',
-      viewOriginalButton: 'View Original',
-      examples: [
-        'A cute Totoro in the forest, Ghibli style',
-        'The bathhouse from Spirited Away, warm night lights',
-        'Castle in the Sky floating in the clouds',
-        'Kiki flying on a broomstick from Kiki\'s Delivery Service'
-      ]
-    }
+  const models = [
+    { value: 'siliconflow', name: locale === 'zh' ? '硅基流动' : 'SiliconFlow', description: locale === 'zh' ? '快速生成，适合初学者' : 'Fast generation, good for beginners' },
+    { value: 'replicate', name: locale === 'zh' ? 'Replicate' : 'Replicate', description: locale === 'zh' ? '高质量输出，专业选择' : 'High quality output, professional choice' }
+  ]
+
+  const styles = [
+    { value: 'classic', name: locale === 'zh' ? '经典吉卜力' : 'Classic Ghibli', description: locale === 'zh' ? '传统吉卜力动画风格' : 'Traditional Ghibli animation style' },
+    { value: 'modern', name: locale === 'zh' ? '现代吉卜力' : 'Modern Ghibli', description: locale === 'zh' ? '现代吉卜力电影风格' : 'Modern Ghibli movie style' },
+    { value: 'watercolor', name: locale === 'zh' ? '水彩风格' : 'Watercolor', description: locale === 'zh' ? '水彩画效果' : 'Watercolor painting effect' },
+    { value: 'sketch', name: locale === 'zh' ? '素描风格' : 'Sketch', description: locale === 'zh' ? '铅笔素描效果' : 'Pencil sketch effect' }
+  ]
+
+  const examples = [
+    locale === 'zh' ? '一只可爱的龙猫在森林中，吉卜力风格' : 'A cute Totoro in the forest, Ghibli style',
+    locale === 'zh' ? '千与千寻中的汤屋，夜晚灯光温暖' : 'The bathhouse from Spirited Away, warm night lights',
+    locale === 'zh' ? '天空之城的城堡漂浮在云端' : 'Castle in the Sky floating in the clouds',
+    locale === 'zh' ? '魔女宅急便中的琪琪骑着扫帚飞翔' : 'Kiki flying on a broomstick from Kiki\'s Delivery Service'
+  ]
+
+  const handleRandomSeed = () => {
+    setSeed(Math.floor(Math.random() * 1000000))
   }
 
-  const t = content[isEnglish ? 'en' : 'zh']
-
-  const showToast = (message: string, type: 'success' | 'error' = 'success') => {
-    const toast = document.createElement('div')
-    toast.innerHTML = message
-    toast.style.cssText = `
-      position: fixed;
-      top: 20px;
-      right: 20px;
-      background: ${type === 'success' ? '#10b981' : '#ef4444'};
-      color: white;
-      padding: 12px 24px;
-      border-radius: 8px;
-      z-index: 1000;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-      max-width: 300px;
-      word-wrap: break-word;
-    `
-    document.body.appendChild(toast)
-    setTimeout(() => toast.remove(), 3000)
+  const handleSaveToGallery = async () => {
+    if (!generatedImage || !user) return
+    
+    try {
+      // 这里应该调用API保存图片到用户画廊
+      // await saveImageToGallery({
+      //   imageUrl: generatedImage,
+      //   prompt,
+      //   negativePrompt,
+      //   model,
+      //   style,
+      //   width,
+      //   height,
+      //   isPublic
+      // })
+      
+      showToast.success(t('generate.saveToGallerySuccess'))
+    } catch (error) {
+      console.error('保存到画廊失败:', error)
+      showToast.error(t('generate.saveToGalleryError'))
+    }
   }
 
   const handleGenerate = async () => {
     if (!prompt.trim()) {
-      showToast(isEnglish ? 'Please enter a description' : '请输入图片描述', 'error')
+      showToast.error(t('generate.promptRequired'))
+      return
+    }
+    
+    if (!user) {
+      showToast.error(t('generate.loginRequired'))
       return
     }
     
@@ -88,47 +159,57 @@ export default function GeneratePage({ params }: { params: { locale: string } })
     setError(null)
     setGeneratedImage(null)
     
-    showToast(isEnglish ? 'Generating image...' : '正在生成图片...')
+    showToast.loading(t('generate.generating'))
 
     try {
       const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000'
-      const apiUrl = API_BASE_URL.endsWith('/api') ? `${API_BASE_URL}/generate/simple` : `${API_BASE_URL}/api/generate/simple`
-      console.log('Sending request to:', apiUrl)
-      console.log('Prompt:', prompt.trim())
+      const apiUrl = API_BASE_URL.endsWith('/api') ? `${API_BASE_URL}/generate` : `${API_BASE_URL}/api/generate`
+      
+      const requestBody: any = {
+        prompt: prompt.trim(),
+        model,
+        width,
+        height,
+        steps,
+        guidance_scale: guidanceScale,
+        style
+      }
+      
+      if (negativePrompt.trim()) {
+        requestBody.negative_prompt = negativePrompt.trim()
+      }
+      
+      if (seed > 0) {
+        requestBody.seed = seed
+      }
       
       const response = await fetch(apiUrl, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
+          'Authorization': `Bearer ${localStorage.getItem('access_token')}`
         },
-        body: JSON.stringify({
-          prompt: prompt.trim(),
-          model: "stabilityai/stable-diffusion-xl-base-1.0",
-          width: 512,
-          height: 512
-        })
+        body: JSON.stringify(requestBody)
       })
 
-      console.log('Response status:', response.status)
       const data = await response.json()
-      console.log('Response data:', data)
 
-      if (response.ok && data.success) {
+      if (response.ok) {
         const imageUrl = data.result?.images?.[0]
         if (imageUrl) {
           setGeneratedImage(imageUrl)
-          showToast(isEnglish ? 'Image generated successfully!' : '图片生成成功！')
+          showToast.success(t('generate.generateSuccess'))
         } else {
           throw new Error('No image URL in response')
         }
       } else {
-        throw new Error(data.error || data.message || (isEnglish ? 'Generation failed' : '生成失败'))
+        throw new Error(data.error || data.message || t('generate.generateError'))
       }
     } catch (err) {
-      const errorMessage = err instanceof Error ? err.message : (isEnglish ? 'Request failed' : '请求失败')
+      const errorMessage = err instanceof Error ? err.message : t('generate.requestError')
       console.error('Generation error:', errorMessage)
       setError(errorMessage)
-      showToast(errorMessage, 'error')
+      showToast.error(errorMessage)
     } finally {
       setIsGenerating(false)
     }
@@ -140,10 +221,10 @@ export default function GeneratePage({ params }: { params: { locale: string } })
     setIsDownloading(true)
     try {
       await downloadImage(generatedImage, `ghibli-ai-${Date.now()}.png`)
-      showToast(isEnglish ? 'Image downloaded successfully!' : '图片下载成功！')
+      showToast.success(t('generate.downloadSuccess'))
     } catch (error) {
       console.error('Download error:', error)
-      showToast(isEnglish ? 'Download failed, please try again' : '下载失败，请重试', 'error')
+      showToast.error(t('generate.downloadError'))
     } finally {
       setIsDownloading(false)
     }
@@ -155,39 +236,65 @@ export default function GeneratePage({ params }: { params: { locale: string } })
     }
   }
 
+  const handleCopyPrompt = () => {
+    navigator.clipboard.writeText(prompt)
+    showToast.success(t('generate.copyPromptSuccess'))
+  }
+
+  if (!user) {
+    return (
+      <div className="min-h-screen bg-ghibli-cream flex items-center justify-center">
+        <Card className="w-full max-w-md">
+          <CardHeader className="text-center">
+            <Wand2 className="w-12 h-12 text-ghibli-green mx-auto mb-4" />
+            <CardTitle className="text-2xl">{t('generate.loginRequired')}</CardTitle>
+          </CardHeader>
+          <CardContent className="text-center space-y-4">
+            <p className="text-gray-600">
+              {t('generate.loginDesc')}
+            </p>
+            <Button onClick={() => window.location.href = `/${locale}/login`} className="w-full">
+              {t('generate.goLogin')}
+            </Button>
+          </CardContent>
+        </Card>
+      </div>
+    )
+  }
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-ghibli-cream-50 via-ghibli-green-50 to-ghibli-blue-50">
       <div className="container mx-auto px-4 py-12">
         <div className="text-center mb-16">
           <div className="inline-flex items-center px-6 py-3 bg-gradient-to-r from-ghibli-green-100 to-ghibli-blue-100 rounded-full text-ghibli-green-700 text-base font-semibold mb-8 shadow-sm">
             <Wand2 className="w-5 h-5 mr-2" />
-            {isEnglish ? 'AI Art Generator' : 'AI 创作工具'}
+            {t('generate.aiArtGenerator')}
           </div>
           
           <h1 className="text-5xl md:text-6xl font-bold text-gray-900 mb-6 leading-tight">
-            {t.title}
+            {t('generate.title')}
           </h1>
           
           <p className="text-xl md:text-2xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
-            {t.subtitle}
+            {t('generate.subtitle')}
           </p>
         </div>
 
-        <div className="max-w-4xl mx-auto space-y-8">
+        <div className="max-w-6xl mx-auto space-y-8">
           
           <Card className="bg-gradient-to-r from-ghibli-green-50 to-ghibli-blue-50 border-ghibli-green-200">
             <CardHeader>
               <CardTitle className="flex items-center gap-2 text-ghibli-green-700">
                 <Sparkles className="w-5 h-5" />
-                {isEnglish ? 'Quick Examples' : '快速示例'}
+                {t('generate.quickExamples')}
               </CardTitle>
               <CardDescription>
-                {isEnglish ? 'Click any example to get started quickly' : '点击任意示例快速开始创作'}
+                {t('generate.examplesDesc')}
               </CardDescription>
             </CardHeader>
             <CardContent>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-                {t.examples.map((example, index) => (
+                {examples.map((example, index) => (
                   <button
                     key={index}
                     onClick={() => setPrompt(example)}
@@ -204,43 +311,204 @@ export default function GeneratePage({ params }: { params: { locale: string } })
             <CardHeader className="text-center">
               <CardTitle className="flex items-center justify-center gap-2 text-2xl">
                 <Settings className="w-6 h-6" />
-                {isEnglish ? 'Create Your Artwork' : '创作您的艺术作品'}
+                {t('generate.createArtwork')}
               </CardTitle>
               <CardDescription className="text-base">
-                {isEnglish ? 'Describe your vision in detail for the best results' : '详细描述您的创意想法，获得最佳生成效果'}
+                {t('generate.createDesc')}
               </CardDescription>
             </CardHeader>
-            <CardContent className="space-y-6">
-              <div className="space-y-3">
-                <label className="text-lg font-semibold text-gray-800 flex items-center gap-2">
-                  <Wand2 className="w-5 h-5 text-ghibli-green-600" />
-                  {t.promptLabel} *
-                </label>
-                <Textarea
-                  placeholder={t.promptPlaceholder}
-                  value={prompt}
-                  onChange={(e) => setPrompt(e.target.value)}
-                  className="min-h-[150px] text-base resize-none border-2 focus:border-ghibli-green-400 rounded-xl"
-                />
-                <div className="text-sm text-gray-500 flex items-center gap-1">
-                  <span>💡</span>
-                  {isEnglish ? 'Tip: Be specific about colors, mood, and style for better results' : '提示：详细描述颜色、氛围和风格，获得更好的效果'}
-                </div>
-              </div>
+            <CardContent>
+              <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-6">
+                <TabsList className="grid w-full grid-cols-2">
+                  <TabsTrigger value="basic">{t('generate.basicTab')}</TabsTrigger>
+                  <TabsTrigger value="advanced">{t('generate.advancedTab')}</TabsTrigger>
+                </TabsList>
+                
+                <TabsContent value="basic" className="space-y-6">
+                  <div className="space-y-3">
+                    <label className="text-lg font-semibold text-gray-800 flex items-center gap-2">
+                      <Wand2 className="w-5 h-5 text-ghibli-green-600" />
+                      {t('generate.promptLabel')} *
+                    </label>
+                    <Textarea
+                      placeholder={t('generate.promptPlaceholder')}
+                      value={prompt}
+                      onChange={(e) => setPrompt(e.target.value)}
+                      className="min-h-[150px] text-base resize-none border-2 focus:border-ghibli-green-400 rounded-xl"
+                    />
+                    <div className="text-sm text-gray-500 flex items-center gap-1">
+                      <span>💡</span>
+                      {t('generate.promptTip')}
+                    </div>
+                  </div>
 
-              <div className="space-y-3">
-                <label className="text-base font-medium text-gray-700">
-                  {t.negativePromptLabel}
-                </label>
-                <Input
-                  placeholder={t.negativePromptPlaceholder}
-                  value={negativePrompt}
-                  onChange={(e) => setNegativePrompt(e.target.value)}
-                  className="text-base border-2 focus:border-ghibli-green-400 rounded-xl"
-                />
-              </div>
+                  <div className="space-y-3">
+                    <label className="text-base font-medium text-gray-700">
+                      {t('generate.negativePromptLabel')}
+                    </label>
+                    <Textarea
+                      placeholder={t('generate.negativePromptPlaceholder')}
+                      value={negativePrompt}
+                      onChange={(e) => setNegativePrompt(e.target.value)}
+                      className="min-h-[80px] text-base resize-none border-2 focus:border-ghibli-green-400 rounded-xl"
+                    />
+                  </div>
 
-              <Button 
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div className="space-y-3">
+                      <label className="text-base font-medium text-gray-700 flex items-center gap-2">
+                        <Zap className="w-4 h-4" />
+                        {t('generate.modelLabel')}
+                      </label>
+                      <Select value={model} onValueChange={setModel}>
+                        <SelectTrigger className="border-2 focus:border-ghibli-green-400 rounded-xl">
+                          <SelectValue placeholder={t('generate.modelPlaceholder')} />
+                        </SelectTrigger>
+                        <SelectContent>
+                          {models.map((model) => (
+                            <SelectItem key={model.value} value={model.value}>
+                              <div>
+                                <div className="font-medium">{model.name}</div>
+                                <div className="text-xs text-gray-500">{model.description}</div>
+                              </div>
+                            </SelectItem>
+                          ))}
+                        </SelectContent>
+                      </Select>
+                    </div>
+
+                    <div className="space-y-3">
+                      <label className="text-base font-medium text-gray-700 flex items-center gap-2">
+                        <Palette className="w-4 h-4" />
+                        {t('generate.styleLabel')}
+                      </label>
+                      <Select value={style} onValueChange={setStyle}>
+                        <SelectTrigger className="border-2 focus:border-ghibli-green-400 rounded-xl">
+                          <SelectValue placeholder={t('generate.stylePlaceholder')} />
+                        </SelectTrigger>
+                        <SelectContent>
+                          {styles.map((style) => (
+                            <SelectItem key={style.value} value={style.value}>
+                              <div>
+                                <div className="font-medium">{style.name}</div>
+                                <div className="text-xs text-gray-500">{style.description}</div>
+                              </div>
+                            </SelectItem>
+                          ))}
+                        </SelectContent>
+                      </Select>
+                    </div>
+                  </div>
+                </TabsContent>
+                
+                <TabsContent value="advanced" className="space-y-6">
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div className="space-y-3">
+                      <div className="flex items-center justify-between">
+                        <label className="text-base font-medium text-gray-700 flex items-center gap-2">
+                          <Frame className="w-4 h-4" />
+                          {t('generate.sizeLabel')}
+                        </label>
+                        <Badge variant="outline" className="text-xs">
+                          {width} × {height}
+                        </Badge>
+                      </div>
+                      <div className="grid grid-cols-2 gap-3">
+                        {[
+                          { width: 512, height: 512, name: '1:1' },
+                          { width: 768, height: 512, name: '3:2' },
+                          { width: 512, height: 768, name: '2:3' },
+                          { width: 1024, height: 1024, name: '1:1 HD' }
+                        ].map((size) => (
+                          <button
+                            key={`${size.width}x${size.height}`}
+                            type="button"
+                            onClick={() => {
+                              setWidth(size.width)
+                              setHeight(size.height)
+                            }}
+                            className={`p-3 border rounded-lg text-center transition-colors ${
+                              width === size.width && height === size.height
+                                ? 'border-ghibli-green bg-ghibli-green/10 text-ghibli-green'
+                                : 'border-gray-300 hover:border-ghibli-green'
+                            }`}
+                          >
+                            <div className="text-sm font-medium">{size.name}</div>
+                            <div className="text-xs text-gray-500">{size.width}×{size.height}</div>
+                          </button>
+                        ))}
+                      </div>
+                    </div>
+
+                    <div className="space-y-3">
+                      <label className="text-base font-medium text-gray-700">
+                        {t('generate.stepsLabel')} ({steps})
+                      </label>
+                      <Slider
+                        value={[steps]}
+                        onValueChange={(value: number[]) => setSteps(value[0])}
+                        max={50}
+                        min={10}
+                        step={1}
+                        className="w-full"
+                      />
+                      <div className="flex justify-between text-xs text-gray-500">
+                        <span>{t('generate.faster')}</span>
+                        <span>{t('generate.higherQuality')}</span>
+                      </div>
+                    </div>
+
+                    <div className="space-y-3">
+                      <label className="text-base font-medium text-gray-700">
+                        {t('generate.guidanceScaleLabel')} ({guidanceScale})
+                      </label>
+                      <Slider
+                        value={[guidanceScale]}
+                        onValueChange={(value: number[]) => setGuidanceScale(value[0])}
+                        max={20}
+                        min={1}
+                        step={0.5}
+                        className="w-full"
+                      />
+                      <div className="flex justify-between text-xs text-gray-500">
+                        <span>{t('generate.moreCreative')}</span>
+                        <span>{t('generate.moreAccurate')}</span>
+                      </div>
+                    </div>
+
+                    <div className="space-y-3">
+                      <label className="text-base font-medium text-gray-700 flex items-center justify-between">
+                        <span>{t('generate.seedLabel')}</span>
+                        <Button variant="ghost" size="sm" onClick={handleRandomSeed}>
+                          {t('generate.randomSeed')}
+                        </Button>
+                      </label>
+                      <Input
+                        type="number"
+                        value={seed === -1 ? '' : seed}
+                        onChange={(e) => setSeed(e.target.value ? parseInt(e.target.value) : -1)}
+                        placeholder={t('generate.seedPlaceholder')}
+                        className="border-2 focus:border-ghibli-green-400 rounded-xl"
+                      />
+                    </div>
+                  </div>
+
+                  <div className="flex items-center space-x-2">
+                    <input
+                      type="checkbox"
+                      id="isPublic"
+                      checked={isPublic}
+                      onChange={(e) => setIsPublic(e.target.checked)}
+                      className="rounded border-gray-300 text-ghibli-green focus:ring-ghibli-green"
+                    />
+                    <label htmlFor="isPublic" className="text-sm text-gray-700">
+                      {t('generate.shareToGallery')}
+                    </label>
+                  </div>
+                </TabsContent>
+              </Tabs>
+
+              <Button
                 onClick={handleGenerate}
                 disabled={!prompt.trim() || isGenerating}
                 className="w-full h-14 text-lg font-semibold bg-gradient-to-r from-ghibli-green-500 to-ghibli-blue-500 hover:from-ghibli-green-600 hover:to-ghibli-blue-600 shadow-lg hover:shadow-xl transition-all duration-200"
@@ -249,12 +517,12 @@ export default function GeneratePage({ params }: { params: { locale: string } })
                 {isGenerating ? (
                   <>
                     <Sparkles className="w-5 h-5 mr-3 animate-spin" />
-                    {t.generatingButton}
+                    {t('generate.generatingButton')}
                   </>
                 ) : (
                   <>
                     <Wand2 className="w-5 h-5 mr-3" />
-                    {t.generateButton}
+                    {t('generate.generateButton')}
                   </>
                 )}
               </Button>
@@ -272,7 +540,7 @@ export default function GeneratePage({ params }: { params: { locale: string } })
               <CardHeader>
                 <CardTitle className="flex items-center gap-2 text-xl">
                   <Image className="w-6 h-6" />
-                  {isEnglish ? 'Generated Artwork' : '生成结果'}
+                  {t('generate.generatedArtwork')}
                 </CardTitle>
               </CardHeader>
               <CardContent>
@@ -285,20 +553,39 @@ export default function GeneratePage({ params }: { params: { locale: string } })
                     />
                   </div>
                   
-                  <div className="grid grid-cols-2 gap-2">
+                  <div className="grid grid-cols-2 md:grid-cols-4 gap-2">
                     <Button onClick={handleDownload} disabled={isDownloading} variant="outline">
                       <Download className="w-4 h-4 mr-2" />
-                      {isDownloading ? '下载中...' : t.downloadButton}
+                      {isDownloading ? t('generate.downloading') : t('generate.downloadButton')}
                     </Button>
                     <Button onClick={handleViewOriginal} variant="outline">
                       <ExternalLink className="w-4 h-4 mr-2" />
-                      {t.viewOriginalButton}
+                      {t('generate.viewOriginalButton')}
+                    </Button>
+                    <Button onClick={handleCopyPrompt} variant="outline">
+                      <Wand2 className="w-4 h-4 mr-2" />
+                      {t('generate.copyPrompt')}
+                    </Button>
+                    <Button onClick={handleSaveToGallery} variant="outline">
+                      <Image className="w-4 h-4 mr-2" />
+                      {t('generate.saveToGallery')}
                     </Button>
                   </div>
                   
                   <div className="p-4 bg-gray-50 rounded-lg">
-                    <h4 className="font-medium text-gray-900 mb-1">提示词</h4>
+                    <div className="flex justify-between items-start mb-2">
+                      <h4 className="font-medium text-gray-900">{t('generate.promptUsed')}</h4>
+                      <Badge variant="outline" className="text-xs">
+                        {models.find(m => m.value === model)?.name} · {styles.find(s => s.value === style)?.name}
+                      </Badge>
+                    </div>
                     <p className="text-sm text-gray-600">{prompt}</p>
+                    {negativePrompt && (
+                      <div className="mt-3">
+                        <h5 className="text-xs font-medium text-gray-700 mb-1">{t('generate.negativePromptUsed')}</h5>
+                        <p className="text-xs text-gray-600">{negativePrompt}</p>
+                      </div>
+                    )}
                   </div>
                 </div>
               </CardContent>
@@ -310,7 +597,7 @@ export default function GeneratePage({ params }: { params: { locale: string } })
               <CardHeader>
                 <CardTitle className="flex items-center gap-2 text-xl">
                   <Image className="w-6 h-6" />
-                  {isEnglish ? 'Generated Artwork' : '生成结果'}
+                  {t('generate.generatedArtwork')}
                 </CardTitle>
               </CardHeader>
               <CardContent>
@@ -319,10 +606,10 @@ export default function GeneratePage({ params }: { params: { locale: string } })
                     <Image className="w-20 h-20 mx-auto opacity-30" />
                     <div className="space-y-2">
                       <p className="text-lg font-medium">
-                        {isEnglish ? 'Your generated image will appear here' : '生成的图片将在这里显示'}
+                        {t('generate.imageWillAppearHere')}
                       </p>
                       <p className="text-sm">
-                        {isEnglish ? 'Enter a prompt above and click generate to start' : '在上方输入描述并点击生成按钮开始创作'}
+                        {t('generate.enterPromptToStart')}
                       </p>
                     </div>
                   </div>

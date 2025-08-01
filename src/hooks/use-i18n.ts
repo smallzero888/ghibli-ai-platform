@@ -6,6 +6,12 @@ import { useMemo } from 'react'
 // Import translation files
 import enMessages from '../../messages/en.json'
 import zhMessages from '../../messages/zh.json'
+import jaMessages from '../../messages/ja.json'
+import koMessages from '../../messages/ko.json'
+import esMessages from '../../messages/es.json'
+import frMessages from '../../messages/fr.json'
+import deMessages from '../../messages/de.json'
+import ruMessages from '../../messages/ru.json'
 
 // Type for translation messages
 type Messages = typeof enMessages
@@ -18,16 +24,16 @@ export type Locale = typeof supportedLocales[number]
 const messages: Record<Locale, Messages> = {
   zh: zhMessages,
   en: enMessages,
+  ja: jaMessages,
+  ko: koMessages,
+  es: esMessages,
+  fr: frMessages,
+  de: deMessages,
+  ru: ruMessages,
   // For now, fallback to English for other locales
   // TODO: Add proper translations for these locales
-  ja: enMessages,
-  ko: enMessages,
-  es: enMessages,
-  fr: enMessages,
-  de: enMessages,
   it: enMessages,
   pt: enMessages,
-  ru: enMessages,
   ar: enMessages,
   hi: enMessages,
   th: enMessages,
@@ -179,6 +185,24 @@ const navigationTranslations: Record<Locale, {
     contact: 'Kontakt',
     support: 'Support'
   },
+  ru: {
+    home: 'Главная',
+    generate: 'Создать',
+    gallery: 'Галерея',
+    dashboard: 'Панель',
+    explore: 'Исследовать',
+    pricing: 'Цены',
+    help: 'Центр Помощи',
+    faq: 'Часто задаваемые вопросы',
+    login: 'Войти',
+    logout: 'Выйти',
+    register: 'Регистрация',
+    profile: 'Профиль',
+    settings: 'Настройки',
+    about: 'О нас',
+    contact: 'Контакты',
+    support: 'Поддержка'
+  },
   it: {
     home: 'Home',
     generate: 'Genera',
@@ -214,24 +238,6 @@ const navigationTranslations: Record<Locale, {
     about: 'Sobre',
     contact: 'Contato',
     support: 'Suporte'
-  },
-  ru: {
-    home: 'Главная',
-    generate: 'Генерировать',
-    gallery: 'Галерея',
-    dashboard: 'Панель',
-    explore: 'Исследовать',
-    pricing: 'Цены',
-    help: 'Центр Помощи',
-    faq: 'Часто задаваемые вопросы',
-    login: 'Войти',
-    logout: 'Выйти',
-    register: 'Регистрация',
-    profile: 'Профиль',
-    settings: 'Настройки',
-    about: 'О нас',
-    contact: 'Контакты',
-    support: 'Поддержка'
   },
   ar: {
     home: 'الرئيسية',

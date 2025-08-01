@@ -1,5 +1,6 @@
 import './globals.css'
 import { Providers } from '@/components/providers'
+import { CanvasSpiderWeb } from '@/components/effects/canvas-spider-web'
 
 export const metadata = {
   title: '吉卜力AI图片生成器 - 免费在线AI艺术创作平台',
@@ -15,6 +16,7 @@ export default function RootLayout({
   return (
     <html>
       <body>
+        <CanvasSpiderWeb />
         <Providers>
           {children}
         </Providers>

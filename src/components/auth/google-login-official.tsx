@@ -11,6 +11,13 @@ interface GoogleLoginOfficialProps {
   onClose?: () => void
 }
 
+// 声明全局类型
+declare global {
+  interface Window {
+    google?: any
+  }
+}
+
 /**
  * 官方Google登录按钮组件
  * 遵循Google Identity Services最佳实践
@@ -45,6 +52,7 @@ export function GoogleLoginOfficial({ mode = 'login', onSuccess, onClose }: Goog
   }, [])
 
   useEffect(() => {
+    if (typeof window === 'undefined') return
     if (!window.google || !process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID) return
 
     // 初始化Google Identity Services

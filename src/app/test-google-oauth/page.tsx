@@ -3,14 +3,12 @@
 import { useState, useEffect } from 'react'
 import { Button } from '@/components/ui/button'
 import { GoogleLogin } from '@/components/auth/google-login'
-import { useAuth } from '@/lib/auth-context'
 import { useRouter } from 'next/navigation'
 import { showToast } from '@/lib/toast'
 
 export default function TestGoogleOAuthPage() {
   const [testResults, setTestResults] = useState<any>(null)
   const [loading, setLoading] = useState(false)
-  const { user, signOut } = useAuth()
   const router = useRouter()
 
   const testConfiguration = async () => {
@@ -24,10 +22,6 @@ export default function TestGoogleOAuthPage() {
         environment: {
           clientId: clientId ? '✅ 已配置' : '❌ 未配置',
           supabaseUrl: supabaseUrl ? '✅ 已配置' : '❌ 未配置',
-        },
-        auth: {
-          currentUser: user ? '✅ 已登录' : '❌ 未登录',
-          userEmail: user?.email || 'N/A'
         },
         browser: {
           supportsGoogle: typeof window !== 'undefined' && 'google' in window ? '✅ 支持' : '❌ 不支持',
@@ -50,19 +44,9 @@ export default function TestGoogleOAuthPage() {
     }
   }
 
-  const handleSignOut = async () => {
-    try {
-      await signOut()
-      showToast.success('已退出登录')
-      router.push('/test-google-oauth')
-    } catch (error) {
-      showToast.error('退出登录失败')
-    }
-  }
-
   useEffect(() => {
     testConfiguration()
-  }, [user])
+  }, [])
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-ghibli-cream via-ghibli-green/10 to-ghibli-blue/10 flex items-center justify-center px-4">
@@ -94,20 +78,6 @@ export default function TestGoogleOAuthPage() {
                 </div>
 
                 <div className="bg-gray-50 p-4 rounded-lg">
-                  <h3 className="font-medium text-gray-900 mb-2">认证状态</h3>
-                  <div className="space-y-1 text-sm">
-                    <div className="flex justify-between">
-                      <span>当前用户:</span>
-                      <span>{testResults.auth.currentUser}</span>
-                    </div>
-                    <div className="flex justify-between">
-                      <span>用户邮箱:</span>
-                      <span className="truncate">{testResults.auth.userEmail}</span>
-                    </div>
-                  </div>
-                </div>
-
-                <div className="bg-gray-50 p-4 rounded-lg">
                   <h3 className="font-medium text-gray-900 mb-2">浏览器支持</h3>
                   <div className="space-y-1 text-sm">
                     <div className="flex justify-between">
@@ -123,24 +93,6 @@ export default function TestGoogleOAuthPage() {
               </div>
             </div>
           )}
-
-          {/* 用户状态 */}
-          <div className="text-center">
-            {user ? (
-              <div className="space-y-4">
-                <div className="bg-green-50 border border-green-200 rounded-lg p-4">
-                  <p className="text-green-800">✅ 已登录用户: {user.email}</p>
-                </div>
-                <Button onClick={handleSignOut} variant="outline">
-                  退出登录
-                </Button>
-              </div>
-            ) : (
-              <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-4">
-                <p className="text-yellow-800">⚠️ 当前未登录，请测试Google登录功能</p>
-              </div>
-            )}
-          </div>
 
           {/* Google登录测试 */}
           <div className="space-y-4">

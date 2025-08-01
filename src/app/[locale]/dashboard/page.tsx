@@ -37,7 +37,12 @@ export default function DashboardPage() {
     totalLikes: 0,
     totalViews: 0,
     storageUsed: 0,
+    storageLimit: 100 * 1024 * 1024, // 100MB
     creditsLeft: 100,
+    creditsLimit: 100,
+    apiCallsUsed: 0,
+    apiCallsLimit: 1000,
+    plan: 'free' as 'free' | 'pro' | 'enterprise',
   })
 
   useEffect(() => {
@@ -69,7 +74,12 @@ export default function DashboardPage() {
           totalLikes: imageData.reduce((sum, img) => sum + (img.likes_count || 0), 0),
           totalViews: imageData.reduce((sum, img) => sum + (img.views_count || 0), 0),
           storageUsed: imageData.length * 2 * 1024 * 1024, // Estimate 2MB per image
+          storageLimit: 100 * 1024 * 1024, // 100MB for free plan
           creditsLeft: 100 - (thisMonthImages.length * 2), // Estimate 2 credits per generation
+          creditsLimit: 100, // 100 credits for free plan
+          apiCallsUsed: thisMonthImages.length * 3, // Estimate 3 API calls per generation
+          apiCallsLimit: 1000, // 1000 API calls for free plan
+          plan: 'free', // Default to free plan
         })
       }
     } catch (error) {
@@ -187,7 +197,7 @@ export default function DashboardPage() {
             <div className="flex items-center gap-3">
               <div className="flex items-center gap-2 px-3 py-2 bg-gradient-to-r from-ghibli-gold/20 to-ghibli-orange/20 rounded-lg">
                 <Crown className="h-4 w-4 text-ghibli-gold" />
-                <span className="text-sm font-medium">Free Plan</span>
+                <span className="text-sm font-medium capitalize">{stats.plan} Plan</span>
               </div>
               <Link href="/generate">
                 <Button>

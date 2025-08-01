@@ -53,7 +53,127 @@ function AuthCallbackContent() {
           return
         }
 
-        // 获取当前会话
+        // 处理URL中的hash参数（包含access_token等）
+        const hash = window.location.hash
+        if (hash) {
+          // 解析hash参数
+          const params = new URLSearchParams(hash.substring(1))
+          const accessToken = params.get('access_token')
+          const refreshToken = params.get('refresh_token')
+          
+          if (accessToken && refreshToken) {
+            // 设置会话
+            const { data, error: sessionError } = await supabase.auth.setSession({
+              access_token: accessToken,
+              refresh_token: refreshToken
+            })
+            
+            if (sessionError) {
+              console.error('Session error:', sessionError)
+              setStatus('error')
+              setErrorMessage('设置会话失败，请重试')
+              showToast.error('设置会话失败，请重试')
+              
+              setTimeout(() => {
+                router.push('/login')
+              }, 3000)
+              return
+            }
+
+            if (data.session) {
+              // 同步用户信息到数据库
+              try {
+                const syncResponse = await fetch('/api/auth/sync-google-user', {
+                  method: 'POST',
+                  headers: {
+                    'Content-Type': 'application/json',
+                  },
+                  body: JSON.stringify({
+                    user: data.session.user,
+                    session: data.session
+                  }),
+                })
+
+                if (!syncResponse.ok) {
+                  console.warn('Failed to sync user data, but login successful')
+                }
+              } catch (syncError) {
+                console.warn('User sync error:', syncError)
+                // 继续登录流程，同步失败不影响登录
+              }
+
+              setStatus('success')
+              showToast.success('Google登录成功！')
+              
+              // 获取返回URL
+              const returnUrl = sessionStorage.getItem('returnUrl') || '/dashboard'
+              sessionStorage.removeItem('returnUrl')
+              
+              setTimeout(() => {
+                router.push(returnUrl)
+                router.refresh()
+              }, 1500)
+              return
+            }
+          }
+        }
+
+        // 检查URL中的code参数（Supabase OAuth回调）
+        const code = searchParams.get('code')
+        if (code) {
+          // 使用code交换session
+          const { data, error: exchangeError } = await supabase.auth.exchangeCodeForSession(code)
+          
+          if (exchangeError) {
+            console.error('Code exchange error:', exchangeError)
+            setStatus('error')
+            setErrorMessage('交换认证信息失败，请重试')
+            showToast.error('交换认证信息失败，请重试')
+            
+            setTimeout(() => {
+              router.push('/login')
+            }, 3000)
+            return
+          }
+
+          if (data.session) {
+            // 同步用户信息到数据库
+            try {
+              const syncResponse = await fetch('/api/auth/sync-google-user', {
+                method: 'POST',
+                headers: {
+                  'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                  user: data.session.user,
+                  session: data.session
+                }),
+              })
+
+              if (!syncResponse.ok) {
+                console.warn('Failed to sync user data, but login successful')
+              }
+            } catch (syncError) {
+              console.warn('User sync error:', syncError)
+              // 继续登录流程，同步失败不影响登录
+            }
+
+            setStatus('success')
+            showToast.success('Google登录成功！')
+            
+            // 获取返回URL
+            const returnUrl = sessionStorage.getItem('returnUrl') || '/dashboard'
+            sessionStorage.removeItem('returnUrl')
+            
+            setTimeout(() => {
+              router.push(returnUrl)
+              router.refresh()
+            }, 1500)
+            return
+          }
+        }
+
+        // 如果没有hash参数和code参数，尝试获取当前会话
         const { data: { session }, error: sessionError } = await supabase.auth.getSession()
         
         if (sessionError) {
@@ -69,6 +189,27 @@ function AuthCallbackContent() {
         }
 
         if (session) {
+          // 同步用户信息到数据库
+          try {
+            const syncResponse = await fetch('/api/auth/sync-google-user', {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json',
+              },
+              body: JSON.stringify({
+                user: session.user,
+                session: session
+              }),
+            })
+
+            if (!syncResponse.ok) {
+              console.warn('Failed to sync user data, but login successful')
+            }
+          } catch (syncError) {
+            console.warn('User sync error:', syncError)
+            // 继续登录流程，同步失败不影响登录
+          }
+
           setStatus('success')
           showToast.success('Google登录成功！')
           

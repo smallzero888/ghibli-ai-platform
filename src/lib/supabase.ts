@@ -1,21 +1,52 @@
 import { createClient as createSupabaseClient } from '@supabase/supabase-js'
 
-const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!
-const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
+// 获取环境变量
+const getEnvVar = (name: string): string => {
+  if (typeof window === 'undefined') {
+    // 服务端
+    return process.env[name] || ''
+  }
+  // 客户端
+  return process.env[name] || ''
+}
 
-export const supabase = createSupabaseClient(supabaseUrl, supabaseAnonKey)
+// 获取Supabase配置
+const getSupabaseConfig = () => {
+  const url = getEnvVar('NEXT_PUBLIC_SUPABASE_URL')
+  const key = getEnvVar('NEXT_PUBLIC_SUPABASE_ANON_KEY')
+  
+  if (!url || !key) {
+    console.error('Supabase configuration missing:', { url: !!url, key: !!key })
+    // 使用正确的生产环境URL
+    return {
+      url: 'https://wqzjtjcrjvgspalihvqw.supabase.co',
+      key: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Indxemp0amNyanZnc3BhbGlodnF3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTI3MjExMzksImV4cCI6MjA2ODI5NzEzOX0.7IAQq5J4OyqFqZNEO0yL2w7NWVUvQYTvqZrXNYs8IlU'
+    }
+  }
+  
+  return { url, key }
+}
 
 // 创建客户端的函数，用于组件内部使用
 export const createClient = () => {
-  return createSupabaseClient(supabaseUrl, supabaseAnonKey)
+  const config = getSupabaseConfig()
+  return createSupabaseClient(config.url, config.key)
 }
 
 // 服务端使用的客户端（具有管理员权限）
-// 注意：这个只能在服务端使用，不能在客户端使用
-export const supabaseAdmin = typeof window === 'undefined' 
-  ? createSupabaseClient(
-      supabaseUrl,
-      process.env.SUPABASE_SERVICE_ROLE_KEY!,
+export const getSupabaseAdmin = () => {
+  if (typeof window !== 'undefined') {
+    return null
+  }
+  
+  const url = getEnvVar('NEXT_PUBLIC_SUPABASE_URL')
+  const serviceKey = getEnvVar('SUPABASE_SERVICE_ROLE_KEY')
+  
+  if (!url || !serviceKey) {
+    console.error('Supabase admin configuration missing:', { url: !!url, serviceKey: !!serviceKey })
+    return createSupabaseClient(
+      'https://wqzjtjcrjvgspalihvqw.supabase.co',
+      'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Indxemp0amNyanZnc3BhbGlodnF3Iiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc1MjcyMTEzOSwiZXhwIjoyMDY4Mjk3MTM5fQ.wTgyHIkyKc7og_CnQa8WHiQ1_JAf8mqJxFspjkwLMyk',
       {
         auth: {
           autoRefreshToken: false,
@@ -23,7 +54,19 @@ export const supabaseAdmin = typeof window === 'undefined'
         }
       }
     )
-  : null
+  }
+  
+  return createSupabaseClient(url, serviceKey, {
+    auth: {
+      autoRefreshToken: false,
+      persistSession: false
+    }
+  })
+}
+
+// 兼容旧代码的导出
+export const supabase = typeof window !== 'undefined' ? createClient() : null
+export const supabaseAdmin = getSupabaseAdmin()
 
 // 数据库类型定义
 export type Database = {
